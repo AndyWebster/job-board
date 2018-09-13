@@ -1,0 +1,31 @@
+<div class="container">
+    <mat-card>
+        <mat-card-title>
+            <p>Register</p>
+        </mat-card-title>
+        <mat-card-content >
+            <form class="form-container">
+                <mat-form-field >
+                    <input matInput [(ngModel)]="name" required placeholder="Name" name="name">
+                </mat-form-field>
+                <mat-form-field >
+                    <input matInput [(ngModel)]="username" required placeholder="Username" name="username">
+                </mat-form-field>
+                <mat-form-field >
+                    <input matInput [(ngModel)]="email" required type="text" placeholder="Email" name="email">
+                </mat-form-field>
+                <mat-form-field >
+                    <input matInput [(ngModel)]="password" required type="text" placeholder="Password" name="password">
+                </mat-form-field>
+                
+            </form>
+
+        </mat-card-content>
+        <mat-card-actions>
+            <!-- TODO cancel button minimises card or dialogue -->
+            <mat-toolbar-row>
+                <button mat-raised-button color="primary" (click)="onRegisterSubmit()">Submit</button>
+            </mat-toolbar-row>
+        </mat-card-actions>
+    </mat-card> 
+</div>

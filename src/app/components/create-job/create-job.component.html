@@ -1,0 +1,54 @@
+<div class="container">
+
+    <mat-card>
+        <mat-card-title>
+            <p>Post a job!</p>
+        </mat-card-title>
+    
+        <mat-card-content >
+
+            <form #form="ngForm" class="example-container">
+                <mat-form-field >
+                    <input matInput [(ngModel)]="job.title" required placeholder="Title" name="tit">
+                </mat-form-field>
+            
+                <mat-form-field >
+                    <input matInput [(ngModel)]="job.company" type="text" placeholder="Company" name="comp">
+                </mat-form-field>
+            
+                <mat-form-field>
+                    <input matInput [(ngModel)]="job.salary" type="text" placeholder="Salary (£)" name="sal">
+                </mat-form-field>
+        
+                <mat-form-field>
+                    <input matInput [(ngModel)]="job.location" type="text" placeholder="Location" name="loc">
+                </mat-form-field>
+        
+                <mat-form-field>
+                    <textarea  matInput [(ngModel)]="job.description" placeholder="Description" name="desc"></textarea>
+                </mat-form-field>
+
+                <!-- <mat-form-field>
+                    <input matInput [(ngModel)]="job.email" placeholder="Enter your email" [formControl]="email" required name="emai">
+                    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                </mat-form-field> -->
+            </form>
+
+            <button (click)="resetForm()"mat-raised-button >Reset Form</button>
+        </mat-card-content>
+
+        <mat-card-actions>
+                <!-- TODO cancel button minimises card or dialogue -->
+                <button mat-raised-button color="primary">Save draft</button>
+                <button (click)="createJob()" mat-raised-button color="primary">Post Job!</button>
+                
+                
+        </mat-card-actions>
+        
+        
+    </mat-card>
+        
+            
+            
+            
+</div>

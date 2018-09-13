@@ -1,0 +1,16 @@
+.container {
+  margin: auto;
+  max-width: 600px;
+  padding: 20px 8px 20px 8px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+
+}
+  
+.form-container > * {
+  width: 100%;
+}
+

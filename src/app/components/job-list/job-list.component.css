@@ -1,0 +1,47 @@
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  display: -webkit-flex;
+	display: flex;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	margin-top: 15px;
+	padding: 1.5%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+  box-sizing: border-box;
+  z-index: -1;
+}
+
+.dashboard-card {
+  /* Remove position to change overlapping behavoir */
+  position: relative;
+  z-index: inherit;
+  margin-bottom: 20px; 
+  padding-bottom: 30px; 
+
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  z-index: inherit;
+}
+
+.dashboard-card-content {
+  text-align: center;
+  z-index: inherit;
+}
+
+.mat-card-actions {
+  text-align: center;
+}
+
+.button-row button,
+.button-row a {
+  margin-right: 8px;
+}
+
