@@ -17,11 +17,14 @@ import { SignInComponent } from './components/sign-in/sign-in.component'
 
 import { CreateJobComponent } from './components/create-job/create-job.component';
 import { MyJobsComponent } from './components/my-jobs/my-jobs.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 // Services
 import { JobsService } from './services/jobs.service';
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
+
+import { AuthGuard } from './guards/auth.guard';
 // Material imports
 
 import { MatSnackBarModule, MatDialogModule, MatTabsModule, MatDividerModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatExpansionModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule } from '@angular/material';
@@ -30,6 +33,8 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+
+
 
 
 @NgModule({
@@ -42,6 +47,7 @@ import { HttpModule } from '@angular/http';
     MyJobsComponent,
     RegisterComponent,
     SignInComponent,
+    ProfileComponent,
     
   ],
   entryComponents: [],
@@ -71,11 +77,12 @@ import { HttpModule } from '@angular/http';
     ReactiveFormsModule,
     MatTabsModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    
     
     
   ],
-  providers: [JobsService, ValidateService, AuthService],
+  providers: [JobsService, ValidateService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

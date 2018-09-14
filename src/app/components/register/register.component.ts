@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   name: String;
   username: String;
   email: String;
@@ -22,8 +22,7 @@ export class RegisterComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
-  }
+
 
   onRegisterSubmit(){
     const user = {

@@ -4,12 +4,12 @@
             <p>Sign in</p>
         </mat-card-title>
         <mat-card-content >
-            <form #form="ngForm" class="example-container">
+            <form class="form-container">
                 <mat-form-field >
-                    <input matInput [(ngModel)]="user.username" required placeholder="Username" name="tit">
+                    <input matInput [(ngModel)]="username" required placeholder="Username" name="username">
                 </mat-form-field>
                 <mat-form-field >
-                    <input matInput [(ngModel)]="user.password" type="text" placeholder="Password" name="comp">
+                    <input matInput [(ngModel)]="password" required type="text" placeholder="Password" name="password">
                 </mat-form-field>
             </form>
 
@@ -17,7 +17,7 @@
         <mat-card-actions>
             <!-- TODO cancel button minimises card or dialogue -->
             <mat-toolbar-row>
-                <button mat-raised-button color="primary">Log in</button>
+                <button mat-raised-button color="primary" (click)="onLoginSubmit()">Log in</button>
             </mat-toolbar-row>
         </mat-card-actions>
     </mat-card> 

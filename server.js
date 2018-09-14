@@ -29,7 +29,7 @@ const users = require('./app_api/routes/users');
 const port = process.env.PORT || 3000;
 
 // Set Static Folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // Body Parser Middleware
 app.use(bodyParser.json());
@@ -47,6 +47,10 @@ app.get('/', (req, res) => {
 });
 
 require('./app_api/config/passport')(passport);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'))
+})
 
 const server = app.listen(port, function(){
   console.log('Listening on port ' + port);

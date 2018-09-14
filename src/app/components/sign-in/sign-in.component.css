@@ -4,12 +4,10 @@
     padding: 20px 8px 20px 8px;
   }
   
-  .example-container {
+  .form-container {
       display: flex;
       flex-direction: column;
+      width: 100%;
   
     }
     
-  .example-container > * {
-    width: 100%;
-  }
