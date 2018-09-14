@@ -25,8 +25,11 @@ app.use(cors());
 const jobListRoutes = require('./app_api/routes/joblist.route');
 const users = require('./app_api/routes/users');
 
-// Port Number
-const port = process.env.PORT || 3000;
+// Port Number  for local development
+/* const port = process.env.PORT || 3000; */
+
+// Port Number for Heroku deployment
+const port = process.env.PORT || 8080;
 
 // Set Static Folder
 app.use(express.static(path.join(__dirname, 'dist')));
