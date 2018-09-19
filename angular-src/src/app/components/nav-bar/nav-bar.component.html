@@ -12,22 +12,34 @@
       
       <!-- TODO filters -->
       <mat-list role="list">
+
         <mat-list-item role="listitem">
-          <button (click)="drawer.toggle()" class="nav-button" mat-raised-button color="accent" routerLink="/job-list">Job Search</button>
+          <button class="nav-button" mat-raised-button color="accent" routerLink="/job-list">Job Search</button>
         </mat-list-item>
+
         <mat-list-item role="listitem">
-          <button (click)="drawer.toggle()" class="nav-button" mat-raised-button color="accent" routerLink="/my-jobs">My Jobs</button>
+          <button class="nav-button" mat-raised-button color="accent" routerLink="/create-job">Post job</button>
         </mat-list-item>
-        <mat-list-item role="listitem">
-          <button (click)="drawer.toggle()" class="nav-button" mat-raised-button color="accent" routerLink="/create-job">Post job</button>
+
+        <mat-list-item *ngIf="!authService.loggedIn()" role="listitem">
+          <button class="nav-button" mat-raised-button color="accent" routerLink="/my-jobs">My Jobs</button>
         </mat-list-item>
+
+        <mat-list-item *ngIf="!authService.loggedIn()" role="listitem">
+          <button class="nav-button" mat-raised-button color="accent" routerLink="/profile">My Profile</button>
+        </mat-list-item>
+
       </mat-list>
       
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary" class="mat-elevation-z2">
+
+
       <mat-toolbar-row>
+
+        <!-- Menu draw button -->
         <button
           type="button"
           aria-label="Toggle sidenav"
@@ -36,17 +48,19 @@
           *ngIf="isHandset$ | async">
           <mat-icon aria-label="Side nav toggle icon">more_vert</mat-icon>
         </button>
+
+        <!-- HEADING -->
         <span class="mat-heading" routerLink="/">Quite So!</span>
+
+
         <span class="spacer"></span>
-        
 
-        <button mat-button color="accent" routerLink="/job-list">Job List</button>
-
-        <button *ngIf="authService.loggedIn()" mat-button color="accent" routerLink="/register">Register</button>
-        <button *ngIf="authService.loggedIn()" mat-button color="accent" routerLink="/login">Login</button>
-        
-        <button *ngIf="!authService.loggedIn()" mat-button color="accent" routerLink="/profile">Profile</button>
-        <button *ngIf="!authService.loggedIn()" mat-button color="accent" (click)="onLogoutClick()">Logout</button>
+        <!-- BUTTONS TO RIGHT SIDE OF NAV -->
+        <!-- Buttons shown when logged out -->
+        <!-- <button class="log-button" *ngIf="authService.loggedIn()" mat-button color="accent" routerLink="/register">Register</button> -->
+        <button class="log-button" *ngIf="authService.loggedIn()" mat-button color="accent" routerLink="/login">Login</button>
+        <!-- Buttons shown when logged in -->
+        <button class="log-button" *ngIf="!authService.loggedIn()" mat-button color="accent" (click)="onLogoutClick()">Logout</button>
       </mat-toolbar-row>
 
       

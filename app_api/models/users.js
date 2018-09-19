@@ -21,6 +21,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     }
+
+    // TODO 
+    // Add user.applied LIST of job.ID
+    // Add user.cv FILE
+    // Add user.cover STRING
+    // Add user.phone NUMBER
+
 });
 
 const User = module.exports = mongoose.model('User', userSchema);

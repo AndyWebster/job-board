@@ -27,9 +27,8 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 // Material imports
 
-import { MatSnackBarModule, MatDialogModule, MatTabsModule, MatDividerModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatExpansionModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule } from '@angular/material';
+import { MatButtonToggleModule, MatSnackBarModule, MatDialogModule, MatTabsModule, MatDividerModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatExpansionModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -80,6 +79,7 @@ export function tokenGetter() {
     MatTabsModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatButtonToggleModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

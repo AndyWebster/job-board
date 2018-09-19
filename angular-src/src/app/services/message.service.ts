@@ -14,7 +14,7 @@ export class MessageService {
   showError(message: string) {
     const config = new MatSnackBarConfig();
     config.panelClass = ['background-red'];
-    config.duration = 5000
+    config.duration = 1000
     this.zone.run(() => {
       this.snackBar.open(message, null, config);
     });
@@ -23,7 +23,7 @@ export class MessageService {
   showMessage(message: string) {
     const config = new MatSnackBarConfig();
     config.panelClass = ['background-green'];
-    config.duration = 5000
+    config.duration = 1000
     this.zone.run(() => {
     this.snackBar.open(message, null, config);
     });

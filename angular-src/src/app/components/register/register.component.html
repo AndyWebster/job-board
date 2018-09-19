@@ -12,10 +12,11 @@
                     <input matInput [(ngModel)]="username" required placeholder="Username" name="username">
                 </mat-form-field>
                 <mat-form-field >
-                    <input matInput [(ngModel)]="email" required type="text" placeholder="Email" name="email">
+                    <input matInput [(ngModel)]="email" required type="email" placeholder="Email" name="email">
                 </mat-form-field>
                 <mat-form-field >
-                    <input matInput [(ngModel)]="password" required type="text" placeholder="Password" name="password">
+                    <input matInput [(ngModel)]="password" required [type]="hide ? 'text' : 'password'" placeholder="Password" name="password">
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </mat-form-field>
                 
             </form>

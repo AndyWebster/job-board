@@ -28,10 +28,6 @@
                     <textarea  matInput [(ngModel)]="job.description" placeholder="Description" name="desc"></textarea>
                 </mat-form-field>
 
-                <!-- <mat-form-field>
-                    <input matInput [(ngModel)]="job.email" placeholder="Enter your email" [formControl]="email" required name="emai">
-                    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-                </mat-form-field> -->
             </form>
 
             <button (click)="resetForm()"mat-raised-button >Reset Form</button>

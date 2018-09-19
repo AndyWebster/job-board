@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators } from '@angular/forms';
 import { Job } from '../../job';
 import { JobsService } from '../../services/jobs.service';
+import { MessageService } from '../../services/message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-job',
@@ -21,7 +23,10 @@ export class CreateJobComponent implements OnInit {
 
   job = new Job();
 
-  constructor(private jobsservice: JobsService) { }
+  constructor(
+    private jobsservice: JobsService,
+    public messageService: MessageService,
+    private router: Router) { }
 
   ngOnInit() {
   }
@@ -34,9 +39,10 @@ export class CreateJobComponent implements OnInit {
     } else {
       console.log(this.job)
       this.jobsservice.postJob(this.job);
-      //TODO call service function
+      this.messageService.showMessage('Your job was successfully posted');
+      this.router.navigate(['/my-jobs']);
     }
-    // TODO check if poster wants to "save for later" or "Post now".
+    
     
   }
 

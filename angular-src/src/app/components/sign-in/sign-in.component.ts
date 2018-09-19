@@ -19,6 +19,12 @@ export class SignInComponent {
     private messageService: MessageService
     ) { }
 
+
+  onRegister()
+  {
+    this.router.navigate(['register']);
+  }
+
   onLoginSubmit()
   {
     const user = {

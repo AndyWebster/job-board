@@ -23,8 +23,18 @@ let Job = new Schema({
     description: {
         type: String
     }
+
+    // TODO
+    // Add job.owner STRING
+    // Add job.date DATE
+    // Add job.status BOOL
+    
 },{
     collection: 'joblists'
 });
+
+
+// TODO
+// get job by job.owner
 
 module.exports = mongoose.model('Job', Job);
