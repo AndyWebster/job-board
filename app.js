@@ -4,12 +4,12 @@ bodyParser = require('body-parser'),
 cors = require('cors'),
 mongoose = require('mongoose'),
 passport = require('passport');
-require('dotenv').config()
+
 
 // On Connection And Error
 mongoose.Promise = global.Promise;
-mongoose.connect(String(process.env.DATABASE_URL)).then(
-  () => {console.log('Database is connected' + process.env.DATABASE_URL_PUBLIC) },
+mongoose.connect(String(process.env.DB_URL)).then(
+  () => {console.log('Database is connected' + process.env.DB_URL_PUBLIC) },
   err => { console.log('Can not connect to the database'+ err)}
 );
 
