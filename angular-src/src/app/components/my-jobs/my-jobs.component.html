@@ -1,4 +1,23 @@
-<div class="mat-headline">My jobs</div>
+<mat-tab-group>
+    
+    <mat-tab label="My jobs">
+        
+        <app-my-posts></app-my-posts>
+        <div class="mat-headline">Applications:</div>
+    
+    </mat-tab>
+    <mat-tab label="Post">
+        <div class="flex-container">
+            <div class="mat-headline">Post a job:</div>
+            <app-create-job></app-create-job>
+            <!-- TODO Add database query to get jobs by owner -->
+            <!-- TODO Add editable job card fields and delete -->
+        </div>
+    </mat-tab>
+    <mat-tab label="Profile">
+        <div class="flex-container">
+            <app-profile></app-profile>
+        </div>
+    </mat-tab>
+</mat-tab-group>
 
-<!-- TODO add list of my jobs, likely copy code from job-list-component
-Possibly build out a card service for jobs on all views, ngif for certain control elements -->

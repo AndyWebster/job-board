@@ -14,19 +14,11 @@
       <mat-list role="list">
 
         <mat-list-item role="listitem">
-          <button class="nav-button" mat-raised-button color="accent" routerLink="/job-list">Job Search</button>
+          <button class="nav-button" mat-raised-button color="accent" routerLink="/job-search">Job Search</button>
         </mat-list-item>
 
         <mat-list-item role="listitem">
-          <button class="nav-button" mat-raised-button color="accent" routerLink="/create-job">Post job</button>
-        </mat-list-item>
-
-        <mat-list-item *ngIf="!authService.loggedIn()" role="listitem">
-          <button class="nav-button" mat-raised-button color="accent" routerLink="/my-jobs">My Jobs</button>
-        </mat-list-item>
-
-        <mat-list-item *ngIf="!authService.loggedIn()" role="listitem">
-          <button class="nav-button" mat-raised-button color="accent" routerLink="/profile">My Profile</button>
+          <button class="nav-button" mat-raised-button color="accent" routerLink="/dashboard">My Dashboard</button>
         </mat-list-item>
 
       </mat-list>

@@ -1,23 +1,13 @@
 <div class="flex-container">
-
-  <div class="mat-headline">Job search results</div>
-  
   <!-- Jobs location variable -->
+  <div class="mat-headline">Posts:</div>
   <div *ngFor="let job of jobs">
     <mat-card class="dashboard-card" [class.mat-elevation-z2]="job.collapsed" [class.mat-elevation-z8]="!job.collapsed">
       <mat-card-header>
         
         <mat-card-title>
           <div class="mat-title title">{{job.title}}</div>
-          <div class="mat-subheading-1"> {{job.company}} <br> {{job.location}} <br> {{job.salary}}</div>
-
-          <!-- <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu" xPosition="before">
-            <button mat-menu-item>Report</button>
-            <button mat-menu-item>Save for later</button>
-          </mat-menu> -->
+          <div class="mat-subheading-1"> {{job.company}} <br> {{job.location}} <br> {{job.salary}} <br> Job ID: {{job._id}}<br> Status: {{job.status}}<br> Owner: {{job.owner}}</div>
 
           <p class="more-button">Posted: {{job.date | date:'short' }}</p>
         </mat-card-title>
@@ -33,9 +23,10 @@
             <button mat-flat-button (click)="openDialog()">Apply now!</button>
             <button mat-flat-button *ngIf="job.collapsed" (click)="job.collapsed = false">Less</button>
             <button mat-flat-button *ngIf="!job.collapsed" (click)="job.collapsed = true">More</button>
+            <button mat-flat-button color="accent" [routerLink]="['/edit', job._id]">Edit</button>
+            <button mat-flat-button color="accent" (click)="deleteJob(job._id)">Delete</button>
           </div>
       </mat-card-actions>
     </mat-card>
   </div>
 </div>
-

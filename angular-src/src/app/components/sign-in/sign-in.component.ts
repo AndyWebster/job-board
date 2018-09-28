@@ -37,7 +37,7 @@ export class SignInComponent {
       if(data.success){
         this.authService.storeUserData(data.token, data.users);
         this.messageService.showMessage('You are now logged in');
-        this.router.navigate(['job-list']);
+        this.router.navigate(['dashboard']);
       } else {
         this.messageService.showError(data.msg);
         this.router.navigate(['login']);

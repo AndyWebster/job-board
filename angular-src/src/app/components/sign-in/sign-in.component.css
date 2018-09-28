@@ -4,10 +4,13 @@
     padding: 20px 8px 20px 8px;
   }
   
-  .form-container {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-  
-    }
+.form-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+  }
     
+mat-toolbar-row {
+  text-align: center;
+}

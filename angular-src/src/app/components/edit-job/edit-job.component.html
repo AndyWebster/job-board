@@ -1,3 +1,4 @@
+
 <mat-card class="job-card">
     <mat-card-title-group>
         <mat-slide-toggle class="active-toggle" [(ngModel)]="job.status" matTooltip="While inactive, only you can see this job post.">Activate post</mat-slide-toggle> 
@@ -37,8 +38,8 @@
     </mat-card-content>
 
     <mat-card-actions>
-        <button (click)="createJob()" mat-raised-button color="primary">Save Job!</button>
-            
+        <button (click)="updateJob(job)" mat-raised-button color="primary">Update Job!</button>
+        <button mat-flat-button color="accent" [routerLink]="['/dashboard']">Cancel</button>
             
     </mat-card-actions>
     

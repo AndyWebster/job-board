@@ -10,22 +10,24 @@ export class AuthService {
   authToken: any;
   user: any;
 
+  uri = 'http://localhost:8080/users';
+
   constructor(
-    private http:Http,
+    private http: Http,
     public jwtHelper: JwtHelperService
     ) { }
 
   registerUser(user){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.post('users/register', user, {headers: headers})
+    return this.http.post(`${this.uri}/register`, user, {headers: headers})
       .map(res => res.json());
   }
 
   authenticateUser(user){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.post('users/authenticate', user, {headers: headers})
+    return this.http.post(`${this.uri}/authenticate`, user, {headers: headers})
       .map(res => res.json());
   }
 
@@ -34,7 +36,7 @@ export class AuthService {
     this.LoadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type','application/json');
-    return this.http.get('users/profile', {headers: headers})
+    return this.http.get(`${this.uri}/profile`, {headers: headers})
       .map(res => res.json());
   }
 
@@ -67,5 +69,32 @@ export class AuthService {
     localStorage.clear();
   }
 
+  getUser(){
+    console.log(JSON.stringify(this.user));
+  }
+
+  addJob(jobId, userId){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json');
+    if (jobId) {
+      return this
+      .http
+      .post(`${this.uri}/add/${userId}`, jobId)
+    } else {
+      console.log('Invalid Job ID sent to auth.service');
+    }
+  }
+
+  removeJob(jobId, userId){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json');
+    if (jobId) {
+      return this
+      .http
+      .post(`${this.uri}/remove/${userId}`, jobId)
+    } else {
+      console.log('Invalid Job ID sent to auth.service');
+    }
+  }
 }
 

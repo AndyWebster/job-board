@@ -1,9 +1,10 @@
 export class Job {
-    id: number;
-    collapsed: boolean;
-    title: string;
-    company: string;
-    location: string;
-    salary: number;
-    description: string;
+    title: String;
+    company: String;
+    location: String;
+    salary: Number;
+    description: String;
+    status: Boolean;
+    owner: String;
+    date: String;
 }

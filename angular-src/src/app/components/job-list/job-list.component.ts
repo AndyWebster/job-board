@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Job } from '../../job';
 import { JobsService } from '../../services/jobs.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-job-list',
@@ -12,7 +13,11 @@ export class JobListComponent implements OnInit {
   
   jobs: Job[];
 
-  constructor(private jobservice: JobsService) { }
+
+  constructor(
+    private jobservice: JobsService,
+    public messageService: MessageService,
+    ) { }
 
   ngOnInit() {
     this.getJobs();
@@ -27,6 +32,7 @@ export class JobListComponent implements OnInit {
     })
   }
 
+ 
 }
 
       

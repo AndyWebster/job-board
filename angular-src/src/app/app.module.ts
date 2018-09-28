@@ -14,24 +14,26 @@ import { FilterPanelComponent } from './components/filter-panel/filter-panel.com
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SignInComponent } from './components/sign-in/sign-in.component'
-
+import { EditJobComponent } from './components/edit-job/edit-job.component';
 import { CreateJobComponent } from './components/create-job/create-job.component';
 import { MyJobsComponent } from './components/my-jobs/my-jobs.component';
 import { ProfileComponent } from './components/profile/profile.component';
-
+import { MyPostsComponent } from './components/my-posts/my-posts.component';
 // Services
 import { JobsService } from './services/jobs.service';
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
-
+import { DatePipe } from '@angular/common';
 import { AuthGuard } from './guards/auth.guard';
 // Material imports
 
-import { MatButtonToggleModule, MatSnackBarModule, MatDialogModule, MatTabsModule, MatDividerModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatExpansionModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule } from '@angular/material';
+import { MatTooltipModule, MatSlideToggleModule, MatButtonToggleModule, MatSnackBarModule, MatDialogModule, MatTabsModule, MatDividerModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatExpansionModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+
+
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -49,6 +51,8 @@ export function tokenGetter() {
     RegisterComponent,
     SignInComponent,
     ProfileComponent,
+    EditJobComponent,
+    MyPostsComponent,
     
   ],
   entryComponents: [],
@@ -80,17 +84,19 @@ export function tokenGetter() {
     MatDialogModule,
     MatSnackBarModule,
     MatButtonToggleModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:8080'],
+        whitelistedDomains: ['localhost:8080', 'localhost:4200'],
         blacklistedRoutes: ['localhost:8080/auth/']
       }
     })
     
     
   ],
-  providers: [JobsService, ValidateService, AuthService, AuthGuard],
+  providers: [ DatePipe, JobsService, ValidateService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

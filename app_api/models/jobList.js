@@ -5,9 +5,6 @@ const Schema = mongoose.Schema;
 
 // Define collection and schema for Jobs
 let Job = new Schema({
-    id: {
-        type: Number
-    },
     title: {
         type: String
     },
@@ -22,19 +19,25 @@ let Job = new Schema({
     },
     description: {
         type: String
+    },
+    status: {
+        type: Boolean
+    },
+    date: {
+        type: Date
+    },
+    owner: {
+        type: String
     }
 
-    // TODO
-    // Add job.owner STRING
-    // Add job.date DATE
-    // Add job.status BOOL
+
     
 },{
     collection: 'joblists'
 });
 
-
-// TODO
-// get job by job.owner
+module.exports.getJobById = function(id, callback){
+    Job.findById(id, callback);
+};
 
 module.exports = mongoose.model('Job', Job);

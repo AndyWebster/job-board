@@ -11,7 +11,8 @@ router.post('/register', (req, res, next) => {
         name: req.body.name,
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        
     });
 
     User.addUser(newUser, (err, user) => {  
@@ -63,5 +64,28 @@ router.get('/profile', passport.authenticate('jwt', {session:false}), (req, res,
     res.json({user: req.user});
 });
 
+router.post('/add/:userId', (req, res) => {
+    let jobId = req.body.id;
+    let userId = req.params.userId;
+    User.addJob(jobId, userId, res, (err) => {  
+        if(err) {
+            res.json({success: false, msg:'Failed to add job to user'});
+        } else {
+            res.json({success: true, msg:'Job added to user'});
+        }
+    });
+});
+
+router.post('/remove/:userId', (req, res) => {
+    let jobId = req.body.id;
+    let userId = req.params.userId;
+    User.removeJob(jobId, userId, res, (err) => {  
+        if(err) {
+            res.json({success: false, msg:'Failed to remove job from user'});
+        } else {
+            res.json({success: true, msg:'Job removed from user'});
+        }
+    });
+});
 
 module.exports = router;

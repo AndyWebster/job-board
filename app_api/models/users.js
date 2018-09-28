@@ -20,7 +20,11 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true
-    }
+    },
+    jobs: [{ 
+        type: String
+    }]
+    
 
     // TODO 
     // Add user.applied LIST of job.ID
@@ -56,4 +60,38 @@ module.exports.comparePassword = function(candidatePassword, hash, callback){
         if(err) throw err;
         callback(null, isMatched);
     });
+}
+
+module.exports.addJob = function(jobId, userId, res){
+    var _id = userId;
+    var _jobid = jobId;
+    User.findByIdAndUpdate(
+        _id,
+        {$push: {jobs: _jobid}},
+        {safe: true, upsert: true},
+        (err) => {
+            if(err){
+                return res.status(500).send(err);
+            } else {
+                return res.send('success')
+            }
+        }
+    );
+}
+
+module.exports.removeJob = function(jobId, userId, res){
+    var _id = userId;
+    var _jobid = jobId;
+    User.findByIdAndUpdate(
+        _id,
+        {$pull: {jobs: _jobid}},
+        {safe: true, upsert: true},
+        (err) => {
+            if(err){
+                return res.status(500).send(err);
+            } else {
+                return res.send('success')
+            }
+        }
+    );
 }

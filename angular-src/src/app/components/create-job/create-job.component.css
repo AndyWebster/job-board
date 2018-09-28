@@ -1,7 +1,12 @@
-.container {
-  margin: auto;
-  max-width: 600px;
-  padding: 20px 8px 20px 8px;
+
+
+
+
+.active-toggle {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+
 }
 
 .example-container {
@@ -14,3 +19,19 @@
   width: 100%;
 }
 
+.job-card {
+  /* Remove position to change overlapping behavoir */
+  position: relative;
+  max-width: 600px;
+  margin-bottom: 20px; 
+  padding-bottom: 30px; 
+
+}
+.dashboard-card-content {
+  text-align: center;
+  z-index: inherit;
+}
+
+.mat-card-actions {
+  text-align: center;
+}

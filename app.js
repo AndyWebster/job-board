@@ -22,9 +22,6 @@ app.use(cors());
 const jobListRoutes = require('./app_api/routes/joblist.route');
 const users = require('./app_api/routes/users');
 
-// Port Number  for local development
-/* const port = process.env.PORT || 3000; */
-
 // Port Number for Heroku deployment
 const port = process.env.PORT || 8080;
 
@@ -52,6 +49,7 @@ app.get('/', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'))
 })
+
 
 const server = app.listen(port, function(){
   console.log('Listening on port ' + port);

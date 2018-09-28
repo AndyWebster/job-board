@@ -28,7 +28,7 @@ export class NavBarComponent {
   onLogoutClick(){
     this.authService.logout();
     this.messageService.showMessage('You are logged out');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/job-search']);
     return false;
   }
 
