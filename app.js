@@ -5,7 +5,6 @@ cors = require('cors'),
 mongoose = require('mongoose'),
 passport = require('passport');
 
-
 // On Connection And Error
 mongoose.Promise = global.Promise;
 mongoose.connect(String(process.env.DB_URL)).then(
