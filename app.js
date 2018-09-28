@@ -4,13 +4,12 @@ bodyParser = require('body-parser'),
 cors = require('cors'),
 mongoose = require('mongoose'),
 passport = require('passport');
-const config = require('dotenv').config();
-const initializer = require('./app_api/config/initializer')
+
 
 // On Connection And Error
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DATABASE_URL).then(
-  () => {console.log('Database is connected' + process.env.DATABASE_URL_PUBLIC) },
+mongoose.connect(process.env.S3_SECRET).then(
+  () => {console.log('Database is connected' + process.env.S3_KEY) },
   err => { console.log('Can not connect to the database'+ err)}
 );
 
