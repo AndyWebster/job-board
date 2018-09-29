@@ -10,7 +10,7 @@ mongoose.set('useCreateIndex', true);
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DB_URL || DB_URL, { useNewUrlParser: true }).then(
   () => {console.log('Database is connected' + process.env.DB_URL_PUBLIC || DB_URL_PUBLIC) },
-  err => { console.log('Can not connect to the database'+ err)}
+  err => { console.log('Can not connect to the database'+ err + "on URL: " + process.env.DB_URL || DB_URL)}
 );
 
 const app = express();
