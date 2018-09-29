@@ -35,8 +35,9 @@ yarn-error.log
 testem.log
 /typings
 .env
+app_api/config/DB
+
 # System Files
 .DS_Store
 Thumbs.db
 
-app_api/config/DB
