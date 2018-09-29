@@ -12,7 +12,7 @@ import { MessageService } from '../services/message.service';
 export class JobsService {
   job: any;
   urlId :String;
-  uri = 'http://localhost:8080/joblists';
+  uri = '/joblists';
 
   constructor(
     private http: HttpClient,

@@ -10,7 +10,7 @@ export class AuthService {
   authToken: any;
   user: any;
 
-  uri = 'http://localhost:8080/users';
+  uri = '/users';
 
   constructor(
     private http: Http,
