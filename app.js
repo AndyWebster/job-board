@@ -23,7 +23,7 @@ const jobListRoutes = require('./app_api/routes/joblist.route');
 const users = require('./app_api/routes/users');
 
 // Port Number for Heroku deployment
-const port = process.env.PORT || PORT || 8080;
+const port = process.env.PORT || 8080;
 
 // Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
