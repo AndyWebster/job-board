@@ -36,6 +36,7 @@ testem.log
 .env
 app_api/config/DB
 /angular-src
+package-lock
 # System Files
 .DS_Store
 Thumbs.db
