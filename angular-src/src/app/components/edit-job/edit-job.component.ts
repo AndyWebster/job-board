@@ -28,7 +28,7 @@ export class EditJobComponent implements OnInit {
     });
   }
 
-  updateJob() {
+  updateJob(job) {
     
     if (!this.job.title || !this.job.company || !this.job.location || !this.job.description) {
       this.messageService.showError('Please fill out all required fields');

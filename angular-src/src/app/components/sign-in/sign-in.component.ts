@@ -12,7 +12,8 @@ export class SignInComponent {
 
   username: String;
   password: String;
-
+  hide = true;
+  
   constructor(
     private authService: AuthService,
     private router: Router,

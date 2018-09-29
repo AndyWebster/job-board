@@ -22,9 +22,11 @@ export class RegisterComponent {
     private router: Router
   ) { }
 
-
+  hide = true;
 
   onRegisterSubmit(){
+
+    
     const user = {
       name: this.name,
       email: this.email,

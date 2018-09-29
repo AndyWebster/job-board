@@ -1,7 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/public
 /tmp
 /out-tsc
 
@@ -36,7 +35,7 @@ testem.log
 /typings
 .env
 app_api/config/DB
-
+/angular-src
 # System Files
 .DS_Store
 Thumbs.db
