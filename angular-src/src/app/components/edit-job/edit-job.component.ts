@@ -28,16 +28,18 @@ export class EditJobComponent implements OnInit {
     });
   }
 
-  updateJob(job) {
+  updateJob() {
     
     if (!this.job.title || !this.job.company || !this.job.location || !this.job.description) {
       this.messageService.showError('Please fill out all required fields');
     } else { 
       this.route.params.subscribe(params => {
-      this.jobsservice.updateJob(this.job, params['id']);
-      this.messageService.showMessage('Your post was successfully updated');
-      this.jobsservice.editJob(params['id']).subscribe(res => {
-        this.job = res;
+        this.jobsservice.updateJob(this.job, params['id'])
+        .subscribe(
+          res => {
+          this.messageService.showMessage('Your post was successfully updated');
+          this.job = res;
+          this.router.navigate(['dashboard'])
         });
       });
     }

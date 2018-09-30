@@ -38,7 +38,7 @@ testem.log
 app_api/config/DB
 /angular-src
 package-lock
-
+.gitignore
 # System Files
 .DS_Store
 Thumbs.db

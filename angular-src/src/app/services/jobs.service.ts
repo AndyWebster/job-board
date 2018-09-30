@@ -12,7 +12,8 @@ import { MessageService } from '../services/message.service';
 export class JobsService {
   job: any;
   urlId :String;
-  uri = '/joblists';
+  // TODO, remove local host for development server calls
+  uri = 'http://localhost:8080/joblists';
 
   constructor(
     private http: HttpClient,
@@ -80,10 +81,9 @@ export class JobsService {
   }
 
   updateJob(job, id){
-    this
+    return this
     .http
     .post(`${this.uri}/update/${id}`, job)
-    .subscribe(res => console.log(res));
   }
 
   deleteJob(job) {

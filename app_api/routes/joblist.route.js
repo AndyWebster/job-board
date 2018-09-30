@@ -108,7 +108,7 @@ jobListRoutes.route('/update/:id').post(function (req, res) {
         jobList.date = req.body.date
 
         jobList.save().then(jobList => {
-          res.json('Update complete');
+          res.json(jobList);
       })
       .catch(err => {
             res.status(400).send("unable to update the database");

@@ -21,7 +21,7 @@ export class CreateJobComponent implements OnInit {
   constructor(
     private jobsservice: JobsService,
     public messageService: MessageService,
-
+    private router: Router,
     ) { }
 
   ngOnInit(){
@@ -43,6 +43,7 @@ export class CreateJobComponent implements OnInit {
       if (this.jobsservice.postJob(this.job)) {
         this.messageService.showMessage('Your job was successfully posted');
         this.resetForm()
+        this.router.navigate(['dashboard']);
       } else {
         console.log('something went wrong');
       }
