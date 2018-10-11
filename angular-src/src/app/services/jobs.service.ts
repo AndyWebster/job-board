@@ -13,7 +13,7 @@ export class JobsService {
   job: any;
   urlId :String;
   // TODO, remove local host for development server calls
-  uri = 'http://localhost:8080/joblists';
+  uri = 'joblists';
 
   constructor(
     private http: HttpClient,

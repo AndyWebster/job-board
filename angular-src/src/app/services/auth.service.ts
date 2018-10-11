@@ -13,7 +13,7 @@ export class AuthService {
   user: any;
   UserId: String;
   // TODO, remove local host for development server calls
-  uri = 'http://localhost:8080/users';
+  uri = 'users';
 
   constructor(
     private http: Http,

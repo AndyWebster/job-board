@@ -11,7 +11,7 @@ import { HttpParams, HttpClient } from '@angular/common/http';
 export class ProfileComponent implements OnInit {
   user:Object;
   displayedColumns: string[] = ['name', 'delete', 'download'];
-  uri = 'http://localhost:8080/upload';
+  uri = 'upload';
 
   constructor(
     private authService: AuthService,
