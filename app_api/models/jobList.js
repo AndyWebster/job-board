@@ -1,10 +1,10 @@
 // JobList.js
 
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
 
 // Define collection and schema for Jobs
-let Job = new Schema({
+const jobSchema = new mongoose.Schema({
     title: {
         type: String
     },
@@ -26,18 +26,41 @@ let Job = new Schema({
     date: {
         type: Date
     },
-    owner: {
-        type: String
+    applications: {
+        type: Array
     }
-
-
-    
 },{
     collection: 'joblists'
 });
+
+const Job = module.exports = mongoose.model('Job', jobSchema);
 
 module.exports.getJobById = function(id, callback){
     Job.findById(id, callback);
 };
 
-module.exports = mongoose.model('Job', Job);
+module.exports.addApplicant = function(jobId, jobApp, callback){
+    var application = jobApp;
+    var _jobid = jobId;
+
+    Job.findByIdAndUpdate(
+        _jobid,
+        {$push: {applications: application}},
+        {safe: true, upsert: true},
+        callback
+    );
+}
+
+module.exports.removeApplicant = function(jobId, UserId, callback){
+    var userId = UserId;
+    var _jobid = jobId;
+    console.log("Job: "+_jobid+", "+"user: "+JSON.stringify(userId) )
+    Job.findByIdAndUpdate(
+        
+        _jobid,
+        {$pull: {applications: { userId: userId}}},
+        {safe: true, upsert: true},
+        callback
+    );
+}
+

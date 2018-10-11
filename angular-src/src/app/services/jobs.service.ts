@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-
-import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { MessageService } from '../services/message.service';
 
@@ -19,10 +19,25 @@ export class JobsService {
     private http: HttpClient,
     public messageService: MessageService,
     private authService: AuthService,
+    private route: ActivatedRoute,
     ) { 
   }
 
-  
+  apply(jobId, application) {
+    return this.http.post(`${this.uri}/apply/${jobId}`, application)
+  }
+
+/*   onUserUpload(fileInfo) {
+    let jobId = this.JobId();
+    let userId = this.authService.UserId();
+    return this.http.post(`${this.uri}/apply/:${jobId}`, userId, fileInfo)
+  } */
+
+  JobId() {
+    this.route.params.subscribe(params => {
+      return params['id']
+    });
+  }
 
   getJobs() {
     return this.http.get(`${this.uri}`)
@@ -114,5 +129,18 @@ export class JobsService {
         return err;
       },
     )
+  }
+
+  deleteApplicant(jobId, userId){
+    
+    return this.http.put(`${this.uri}/reject/${jobId}`, {"userId":userId})
+    .subscribe(
+      res => {
+      return res;
+      },
+      err => {
+        return err;
+      },
+      )
   }
 }

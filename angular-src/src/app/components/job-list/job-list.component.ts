@@ -13,7 +13,6 @@ export class JobListComponent implements OnInit {
   
   jobs: Job[];
 
-
   constructor(
     private jobservice: JobsService,
     public messageService: MessageService,
@@ -31,7 +30,17 @@ export class JobListComponent implements OnInit {
       this.jobs = data;
     })
   }
+  more(job) {
+    if(job.collapsed) {
+      job.collapsed = false;
+    } else {
+      job.collapsed = true;
+    }
+  }
 
+  apply() {
+    
+  }
  
 }
 

@@ -1,17 +1,69 @@
 .flex-container {
-    display: flex;
-    flex-direction: column;
-    display: -webkit-flex;
-      display: flex;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-flex-wrap: wrap;
-      flex-wrap: wrap;
-      margin-top: 15px;
-      padding: 1.5%;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    z-index: -1;
+  display: flex;
+  flex-direction: column;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  padding: 1.5%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.max-width {
+  max-width: 90%;
+}
+  
+.profile-card {
+  /* Remove position to change overlapping behavoir */
+  position: relative;
+
+  max-width: 300px;
+  margin-bottom: 20px; 
+
+
 }
 
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+
+}
+
+.profile-card-content {
+  text-align: center;
+  max-width: 90%;
+}
+
+.mat-card-actions {
+  text-align: center;
+}
+
+.button-row button,
+.button-row a {
+  margin-right: 8px;
+  margin-top: 8px;
+}
+
+.title {
+  margin: 12px 0px 0px 0px;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat-column-name {
+  flex: 0 0 20px;
+}
+
+.mat-column-type {
+  flex: 0 0 25px;
+}
+
+table {
+  min-width: 250px;
+}

@@ -25,16 +25,23 @@
 
 }
 
-.more-button {
+.date {
   position: absolute;
   top: 5px;
   right: 10px;
-  z-index: inherit;
+
+}
+
+
+.more {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+
 }
 
 .dashboard-card-content {
   text-align: center;
-  z-index: inherit;
 }
 
 .mat-card-actions {

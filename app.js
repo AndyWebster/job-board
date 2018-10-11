@@ -15,12 +15,21 @@ mongoose.connect(process.env.PROD_MONGODB, { useNewUrlParser: true }).then(
 
 const app = express();
 
+
 // CORS Middleware 
 app.use(cors());
+// Additional CORS options
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 // Routes For App
-const jobListRoutes = require('./app_api/routes/joblist.route');
+const jobs = require('./app_api/routes/jobs');
 const users = require('./app_api/routes/users');
+const upload = require('./app_api/routes/upload');
+
 
 // Port Number for Heroku deployment
 const port = process.env.PORT || 8080;
@@ -31,8 +40,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Body Parser Middleware
 app.use(bodyParser.json());
 
-app.use('/joblists', jobListRoutes);
+app.use('/joblists', jobs);
 app.use('/users', users);
+app.use('/upload', upload);
 
 // Passport Middleware
 app.use(passport.initialize());

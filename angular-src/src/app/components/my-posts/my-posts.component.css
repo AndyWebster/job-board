@@ -14,6 +14,9 @@
   box-sizing: border-box;
 }
 
+table {
+  width: 100%;
+}
   
 .job-card {
   /* Remove position to change overlapping behavoir */
@@ -21,7 +24,14 @@
 
   max-width: 600px;
   margin-bottom: 20px; 
-  padding-bottom: 30px; 
+  padding: 30px 10px 30px 10px; 
+
+}
+table {
+  /* Remove position to change overlapping behavoir */
+  max-width: 300px;
+  margin-bottom: 20px; 
+
 
 }
 
@@ -44,6 +54,7 @@
 .button-row button,
 .button-row a {
   margin-right: 8px;
+  margin-top: 8px;
 }
 
 .title {

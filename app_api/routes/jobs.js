@@ -1,13 +1,14 @@
-// joblist.route.js
+// jobs.js
 const express = require('express');
-const jobListRoutes = express.Router();
-
+const router = express.Router();
+let User = require('../models/users');
 // Require JobList model in our routes module
-let JobList = require('../models/jobList');
+let Job = require('../models/jobList');
+
 
 // Defined store route
-jobListRoutes.route('/add').post( (req, res) => {
-  let jobList = new JobList(req.body);
+router.route('/add').post( (req, res) => {
+  let jobList = new Job(req.body);
   jobList.save( (err, response) => {
     if(err) {
       response = { error: true, message: "Error adding data" };
@@ -20,8 +21,8 @@ jobListRoutes.route('/add').post( (req, res) => {
 });
 
 // Defined delete | remove | destroy route
-jobListRoutes.route('/remove/:id').delete(function (req, res) {
-  JobList.findByIdAndRemove({_id: req.params.id}, (err, response) => {
+router.route('/remove/:id').delete(function (req, res) {
+  Job.findByIdAndRemove({_id: req.params.id}, (err, response) => {
     if(err) {
       response = { error: true, message: "Error adding data" };
     } else {
@@ -33,8 +34,8 @@ jobListRoutes.route('/remove/:id').delete(function (req, res) {
 });
 
 // Defined get data(index or listing) route
-jobListRoutes.route('/').get(function (req, res) {
-    JobList.find(function (err, jobList){
+router.route('/').get(function (req, res) {
+  Job.find(function (err, jobList){
     if(err){
       console.log(err);
     }
@@ -45,7 +46,7 @@ jobListRoutes.route('/').get(function (req, res) {
 });
 
 // Find all jobs from array of job ID
-jobListRoutes.route('/find/:id').get(function (req, res) {
+router.route('/find/:id').get(function (req, res) {
   // parse id string from url
   let idString = req.params.id;
   
@@ -57,7 +58,7 @@ jobListRoutes.route('/find/:id').get(function (req, res) {
     var jobs = [idString];
   }
   
-  JobList.find({ "_id": { $in: jobs }}, function (err, JobList){
+  Job.find({ "_id": { $in: jobs }}, function (err, JobList){
     if(err){
       console.log(err);
     }
@@ -65,36 +66,50 @@ jobListRoutes.route('/find/:id').get(function (req, res) {
       res.send(JobList);
     }
   })
-
-  // loop through id strings and find jobs by id
-  /* var i;
-  for (i = 0; i < jobs.length; i++) {
-    JobList.find({"_id" : jobs[i]}, function (err, JobList){
-      if(err){
-        console.log(err);
-      }
-      else {
-        data[Stri]=JobList[0];
-        res.send(data);
-      }
-    }
-  )}; */
-  
-  
-
 });
 
+// post applicant to job
+router.post('/apply/:jobId', (req, res) => {
+  let application = req.body;
+  let jobId = req.params.jobId;
+  Job.addApplicant(jobId, application, () => {  
+    User.addApplication(jobId, application.userId, (err) => {
+      if(err) {
+        res.send({ error: true, message: "Error adding data" });
+      } else {
+        res.send({ error: false, message: "Data added" })
+      }
+    })
+  });
+})
+
+
+// delete applicant from job
+router.put('/reject/:jobId', (req, res) => {
+  let userId = req.body.userId;
+  let jobId = req.params.jobId;
+
+  Job.removeApplicant(jobId, userId, () => {  
+    User.removeApplication(jobId, userId, (err) => {
+      if(err) {
+        res.send({ error: true, message: "Error adding data" });
+      } else {
+        res.send({ error: false, message: "Data added" })
+      }
+    })
+  });
+})
 // Defined edit route
-jobListRoutes.route('/edit/:id').get(function (req, res) {
+router.route('/edit/:id').get(function (req, res) {
   let id = req.params.id;
-  JobList.findById(id, function (err, jobList){
+  Job.findById(id, function (err, jobList){
       res.json(jobList);
   });
 });
 
 //  Defined update route
-jobListRoutes.route('/update/:id').post(function (req, res) {
-    JobList.findById(req.params.id, function(err, jobList) {
+router.route('/update/:id').post(function (req, res) {
+  Job.findById(req.params.id, function(err, jobList) {
     if (!jobList)
       return next(new Error('Could not load Document'));
     else {
@@ -119,4 +134,4 @@ jobListRoutes.route('/update/:id').post(function (req, res) {
 
 
 
-module.exports = jobListRoutes;
+module.exports = router;

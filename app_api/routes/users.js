@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const config = require('../config/DB')
 const User = require('../models/users');
 
 // Register
@@ -38,7 +37,7 @@ router.post('/authenticate', (req, res, next) => {
         User.comparePassword(password, user.password, (err, isMatch) => {
             if(err) throw err;
             if(isMatch){
-                const token = jwt.sign({data:user}, config.secret, {
+                const token = jwt.sign({data:user}, process.env.SECRET, {
                     expiresIn: 604800 // 1 week in seconds
                 });
 
@@ -76,7 +75,28 @@ router.post('/add/:userId', (req, res) => {
     });
 });
 
-router.post('/remove/:userId', (req, res) => {
+// Upload CV file info
+router.post('/upload/:userId', (req, res) => {
+    let file = req.body;
+    let userId = req.params.userId;
+    User.addFile(userId, file, (err) => {  
+        if(err) {
+            res.json({success: false, msg:'Failed to upload CV to user'});
+        } else {
+            res.json({success: true, msg:'CV uploaded to user'});
+        }
+    });
+});
+// Remove CV file info
+router.delete('/erase/:userId/', (req, res) => {
+    let userId = req.params.userId;
+    User.removeFile(userId, () => {  
+        res.json({success: true, msg:'CV uploaded to user'});
+    });
+});
+
+// Remove job from user
+router.delete('/remove/:userId', (req, res) => {
     let jobId = req.body.id;
     let userId = req.params.userId;
     User.removeJob(jobId, userId, res, (err) => {  

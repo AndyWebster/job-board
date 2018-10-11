@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const config = require('../config/DB')
+var fs = require('fs'); 
+
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -23,7 +24,13 @@ const userSchema = new mongoose.Schema({
     },
     jobs: [{ 
         type: String
-    }]
+    }],
+    applications: [{ 
+        type: String
+    }],
+    cv: { 
+        type: Array
+    },
     
 
     // TODO 
@@ -76,6 +83,50 @@ module.exports.addJob = function(jobId, userId, res){
                 return res.send('success')
             }
         }
+    );
+}
+
+module.exports.addApplication = function(jobId, userId, callback){
+    var _id = userId;
+    var _jobid = jobId;
+    User.findByIdAndUpdate(
+        _id,
+        {$push: {applications: _jobid}},
+        {safe: true, upsert: true},
+        (err) => {callback(err)}
+    );
+}
+
+module.exports.removeApplication = function(jobId, userId, callback){
+    var _id = userId;
+    var _jobid = jobId;
+    User.findByIdAndUpdate(
+        _id,
+        {$pull: {applications: _jobid}},
+        {safe: true, upsert: true},
+        (err) => {callback(err)}
+    );
+}
+
+module.exports.addFile = function(userId, fileInfo, callback){
+    var _id = userId;
+    var file = fileInfo;
+    User.findByIdAndUpdate(
+        _id,
+        { $set:
+        {cv: file}},
+        {safe: true, upsert: true},
+        callback
+    );
+}
+module.exports.removeFile = function(userId, callback){
+    var _id = userId;
+    User.findByIdAndUpdate(
+        _id,
+        { $unset:
+        {cv:1}},
+        {safe: true, upsert: false},
+        callback
     );
 }
 

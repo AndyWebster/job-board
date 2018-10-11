@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { HttpClient } from '@angular/common/http';
+import { MessageService } from '../services/message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +11,15 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
   authToken: any;
   user: any;
-
+  UserId: String;
   // TODO, remove local host for development server calls
   uri = 'http://localhost:8080/users';
 
   constructor(
     private http: Http,
-    public jwtHelper: JwtHelperService
+    private httpClient: HttpClient,
+    public jwtHelper: JwtHelperService,
+    public messageService: MessageService
     ) { }
 
   registerUser(user){
@@ -70,20 +74,61 @@ export class AuthService {
     localStorage.clear();
   }
 
-  getUser(){
-    console.log(JSON.stringify(this.user));
+/*   UserId() {
+    this.getProfile()
+    .subscribe(
+      profile => {
+        console.log("1 " + profile.user._id)
+        this.user = profile.user;
+      } 
+    )
+  } */
+  
+  jobType(application){
+    if(application){
+      return 'apply';
+    } else {
+      return 'add';
+    }
   }
 
-  addJob(jobId, userId){
+  addJob(jobId, userId, application?){
+    const jobType = this.jobType(application);
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     if (jobId) {
       return this
       .http
-      .post(`${this.uri}/add/${userId}`, jobId)
+      .post(`${this.uri}/${jobType}/${userId}`, jobId)
     } else {
       console.log('Invalid Job ID sent to auth.service');
+      // TODO better error handler
     }
+  }
+
+  addApplication(jobId, userId){
+    const application = true;
+    return this.addJob(jobId, userId, application)
+  }
+
+  onUserUpload(fileInfo) {
+    
+    this.getProfile()
+    .subscribe(
+      profile => {
+      this.UserId = profile.user._id; 
+      this.httpClient.post(`${this.uri}/upload/${this.UserId}`, fileInfo)
+      .subscribe(
+        res => {  }
+        /* success => { this.messageService.showMessage('File uploaded successfully')}, 
+        err => { this.messageService.showError('Something went wrong')} */
+      )
+    });   
+    
+  }      
+
+  deleteFile(userId){
+    return this.httpClient.delete(`${this.uri}/erase/${userId}`)
   }
 
   removeJob(jobId, userId){
@@ -95,7 +140,10 @@ export class AuthService {
       .post(`${this.uri}/remove/${userId}`, jobId)
     } else {
       console.log('Invalid Job ID sent to auth.service');
+      // TODO better error handler
     }
   }
+
+  
 }
 

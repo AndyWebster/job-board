@@ -7,13 +7,15 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { MyJobsComponent } from './components/my-jobs/my-jobs.component';
 import { AuthGuard } from './guards/auth.guard';
 import { EditJobComponent } from './components/edit-job/edit-job.component';
+import { ApplyComponent } from './components/apply/apply.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'job-search', pathMatch: 'full' },
   { path: 'job-search', component: JobListComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: SignInComponent},
-  { path: 'edit/:id', component: EditJobComponent},
+  { path: 'edit/:id', component: EditJobComponent, canActivate:[AuthGuard]},
+  { path: 'apply/:id', component: ApplyComponent, canActivate:[AuthGuard]},
   { path: 'dashboard', component: MyJobsComponent, canActivate:[AuthGuard]},
 
   // TODO - other routes

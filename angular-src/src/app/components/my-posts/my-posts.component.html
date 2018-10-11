@@ -1,32 +1,72 @@
-<div class="flex-container">
-  <!-- Jobs location variable -->
+
+<div *ngIf="active" class="flex-container">
   <div class="mat-headline">Posts:</div>
+  <!-- Iterate through posts on user account -->
   <div *ngFor="let job of jobs">
     <mat-card class="job-card" [class.mat-elevation-z2]="job.collapsed" [class.mat-elevation-z8]="!job.collapsed">
       <mat-card-header>
-        
         <mat-card-title>
           <div class="mat-title title">{{job.title}}</div>
           <div class="mat-subheading-1">Company: {{job.company}} <br>Location: {{job.location}} <br>Salary: £{{job.salary}}</div>
-
           <p class="more-button">Posted: {{job.date | date:'short' }}</p>
         </mat-card-title>
       </mat-card-header>
-
       <mat-card-content class="job-card-content">
         <div *ngIf="!job.collapsed">{{ job.description | slice:0:50 }} ...</div>
         <div *ngIf="job.collapsed">{{ job.description}}</div>
       </mat-card-content>
-      
       <mat-card-actions>
           <div class="button-row">
-            <button mat-flat-button (click)="openDialog()">Apply now!</button>
             <button mat-flat-button *ngIf="job.collapsed" (click)="job.collapsed = false">Less</button>
             <button mat-flat-button *ngIf="!job.collapsed" (click)="job.collapsed = true">More</button>
+            <button mat-flat-button (click)="job.ShowApplicants = !job.ShowApplicants">Applicants</button>
             <button mat-flat-button color="accent" [routerLink]="['/edit', job._id]">Edit</button>
-            <button mat-flat-button color="accent" (click)="deleteJob(job._id)">Delete</button>
+            <button mat-flat-button color="warn" (click)="deleteJob(job._id)">Delete</button>
           </div>
       </mat-card-actions>
+      <mat-card-content>
+        <!-- Applicants table for each job -->
+        <table *ngIf="job.ShowApplicants" mat-table [dataSource]="job.applications" class="mat-elevation-z8">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let applicant"> {{applicant.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef> Email </th>
+              <td mat-cell *matCellDef="let applicant">
+                <button mat-icon-button color="accent" (click)="copyText(applicant.email)" matTooltip="Click to copy {{applicant.email}} to clipboard">
+                  <mat-icon aria-label="Email button">email</mat-icon>
+              </button></td>
+            </ng-container>
+            <ng-container matColumnDef="cover">
+              <th mat-header-cell *matHeaderCellDef> Cover letter </th>
+              <td mat-cell *matCellDef="let applicant">
+                <button mat-icon-button color="accent" matTooltip="Click to read {{applicant.name}}'s cover letter.">
+                    <mat-icon aria-label="Cover letter button">description</mat-icon>
+                </button></td>
+            </ng-container>
+            <ng-container matColumnDef="cv">
+              <th mat-header-cell *matHeaderCellDef> CV </th>
+              <td mat-cell *matCellDef="let applicant">
+                <button mat-icon-button color="accent" matTooltip="Click to download {{applicant.name}}'s CV.">
+                  <mat-icon aria-label="CV letter button">get_app</mat-icon>
+                </button></td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let applicant">
+                  <button mat-icon-button color="warn" (click)="deleteApplication(job._id, applicant.userId)" matTooltip="Click to delete {{applicant.name}}'s application.">
+                    <mat-icon aria-label="CV letter button">delete</mat-icon>
+                  </button></td>
+              </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+      </mat-card-content>
     </mat-card>
+    
+    
+    
   </div>
 </div>

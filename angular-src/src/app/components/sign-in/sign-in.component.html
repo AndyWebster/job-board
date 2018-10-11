@@ -9,14 +9,13 @@
                     <input matInput [(ngModel)]="username" required placeholder="Username" name="username">
                 </mat-form-field>
                 <mat-form-field >
-                    <input matInput [(ngModel)]="password" required [type]="hide ? 'text' : 'password'" placeholder="Password" name="password">
-                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <input matInput [(ngModel)]="password" required [type]="!hide ? 'text' : 'password'" placeholder="Password" name="password">
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
                 </mat-form-field>
             </form>
 
         </mat-card-content>
         <mat-card-actions>
-            <!-- TODO cancel button minimises card or dialogue -->
             <mat-toolbar-row>
                 <button mat-raised-button color="primary" (click)="onLoginSubmit()">Log in</button>
 

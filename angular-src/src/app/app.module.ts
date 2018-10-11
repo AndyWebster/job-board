@@ -5,6 +5,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UploadModule } from './upload/upload.module';
 
 // Component imports
 import { AppRoutingModule } from './app-routing.module';
@@ -19,19 +20,31 @@ import { CreateJobComponent } from './components/create-job/create-job.component
 import { MyJobsComponent } from './components/my-jobs/my-jobs.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
+import { ApplyComponent } from './components/apply/apply.component';
+import { ApplicationsComponent } from './components/applications/applications.component';
 // Services
 import { JobsService } from './services/jobs.service';
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
+
 import { DatePipe } from '@angular/common';
 import { AuthGuard } from './guards/auth.guard';
+
+
 // Material imports
 
-import { MatTooltipModule, MatSlideToggleModule, MatButtonToggleModule, MatSnackBarModule, MatDialogModule, MatTabsModule, MatDividerModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatExpansionModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule } from '@angular/material';
+import { MatTableModule, MatStepperModule, MatTooltipModule, MatSlideToggleModule, MatButtonToggleModule, MatSnackBarModule, MatDialogModule, MatTabsModule, MatDividerModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatExpansionModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+
+// Misc
+
+import { FileSelectDirective } from 'ng2-file-upload';
+
+
+
 
 
 
@@ -53,6 +66,9 @@ export function tokenGetter() {
     ProfileComponent,
     EditJobComponent,
     MyPostsComponent,
+    ApplyComponent,
+    FileSelectDirective,
+    ApplicationsComponent,
     
   ],
   entryComponents: [],
@@ -86,13 +102,16 @@ export function tokenGetter() {
     MatButtonToggleModule,
     MatSlideToggleModule,
     MatTooltipModule,
-    JwtModule.forRoot({
+    MatStepperModule,
+    MatTableModule,
+      JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
         whitelistedDomains: ['localhost:8080', 'localhost:4200', 'localhost:5000'],
         blacklistedRoutes: ['localhost:8080/auth/']
       }
-    })
+    }),
+    UploadModule
     
     
   ],
