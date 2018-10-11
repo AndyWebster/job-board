@@ -41,7 +41,7 @@ import { HttpModule } from '@angular/http';
 
 // Misc
 
-import { FileSelectDirective } from 'ng2-file-upload';
+
 
 
 
@@ -67,7 +67,7 @@ export function tokenGetter() {
     EditJobComponent,
     MyPostsComponent,
     ApplyComponent,
-    FileSelectDirective,
+
     ApplicationsComponent,
     
   ],
