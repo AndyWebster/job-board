@@ -20,6 +20,8 @@ import { CreateJobComponent } from './components/create-job/create-job.component
 import { MyJobsComponent } from './components/my-jobs/my-jobs.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
+import { CoverDialogComponent } from './components/my-posts/my-posts.component';
+
 import { ApplyComponent } from './components/apply/apply.component';
 import { ApplicationsComponent } from './components/applications/applications.component';
 // Services
@@ -66,11 +68,12 @@ export function tokenGetter() {
     ProfileComponent,
     EditJobComponent,
     MyPostsComponent,
+    CoverDialogComponent,
     ApplyComponent,
     ApplicationsComponent,
     
   ],
-  entryComponents: [],
+  entryComponents: [CoverDialogComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -97,6 +100,7 @@ export function tokenGetter() {
     ReactiveFormsModule,
     MatTabsModule,
     MatDialogModule,
+   
     MatSnackBarModule,
     MatButtonToggleModule,
     MatSlideToggleModule,

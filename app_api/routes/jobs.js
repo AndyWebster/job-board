@@ -48,19 +48,39 @@ router.route('/').get(function (req, res) {
 router.route('/search/:keywords').get(function (req, res) {
 
   let keywords = req.params.keywords;
+
+
   if (keywords.includes("&")) {
-    var words = keywords.split("&");
-    //TODO multiple find of many keywords
-    var i;
     
-    for(i=0; i < words.length; i++){
-      JobList = []
+    //TODO multiple find of many keywords
+
+    var words = keywords.split("&");
+    var regex = [];
+    for (var i = 0; i < words.length; i++) {
+        regex[i] = new RegExp(words[i]);
     }
+    
+    
+    Job.find({title: {$in: regex}}, (err, jobList) => {
+      
+      if(err){
+        console.log(err);
+      } else {
+        res.json(jobList);
+      }
+      
+    })
+
   } else {
     var search = keywords;
     //TODO single find of 1 keyword
-    Job.find({"title": new RegExp(search, 'i')}, (jobList) => {
-      res.send(jobList);
+    Job.find({title: new RegExp(search, 'i')}, (err, jobList) => {
+      if(err){
+        console.log(err);
+      }
+      else {
+        res.json(jobList);
+      }
     });
 
   }

@@ -2,13 +2,49 @@
 
     <mat-card class="dashboard-card">
         <mat-card-title>Search for jobs</mat-card-title>
-        <form class="filter-form">
-            <mat-form-field class="full width">
-              <input name="keywords" [(ngModel)]="keywords" type="search" matInput placeholder="Keywords e.g. Construction">
-              <mat-icon matSuffix (click)="searchJobs()">search</mat-icon>
-            </mat-form-field>
+        
+        <mat-card-actions>
+          <mat-form-field class="full-width">
+            <input name="keywords" [(ngModel)]="keywords" type="search" matInput placeholder="Keywords e.g. Construction">
+            <mat-icon matSuffix (click)="searchJobs()">search</mat-icon>
+          </mat-form-field>
+        </mat-card-actions>
+        <mat-card-subtitle>Filter your search</mat-card-subtitle>
+
+        <mat-card-actions>
+
+          <mat-form-field>
+              <mat-select [(ngModel)]="filterLocation" placeholder="Job location">
+                <mat-option *ngFor="let location of locations" [value]="location">
+                  {{location}}
+                </mat-option>
+              </mat-select>
+          </mat-form-field>
+          
+          <mat-form-field>
+            <mat-select [(ngModel)]="filterSalary" placeholder="Annual salary">
+              <mat-option *ngFor="let salary of salaries" [value]="salary.value">
+                £{{salary.viewValue}}+
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+
+          <mat-form-field>
+            <input matInput [(ngModel)]="filterDate" [matDatepicker]="dp" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+
+          </mat-form-field>
+        </mat-card-actions>
+
+        <mat-card-actions>
+          <button mat-flat-button (click)="filter()">Update search</button>
+        </mat-card-actions>
             
-          </form>
+          
+
+
     </mat-card>
 
   <div class="mat-headline">Job search results</div>

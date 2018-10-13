@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { JobsService } from '../../services/jobs.service';
 import { MessageService } from '../../services/message.service';
 import { Job } from '../../job';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+
+export interface DialogData {
+  cover: string;
+}
 
 @Component({
   selector: 'app-my-posts',
@@ -22,6 +27,7 @@ export class MyPostsComponent implements OnInit {
     private authService: AuthService,
     private jobservice: JobsService,
     public messageService: MessageService,
+    public dialog: MatDialog,
   ) { }
 
   
@@ -90,5 +96,29 @@ export class MyPostsComponent implements OnInit {
 
   getApplicants(){
     
+  }
+
+  openDialog(coverString, coverName): void {
+    const dialogRef = this.dialog.open(CoverDialogComponent, {
+      width: '600px',
+      data: {cover: coverString, name: coverName},
+    });
+
+  }
+
+}
+
+@Component({
+  selector: 'app-cover-dialog',
+  templateUrl: './cover-dialog.component.html',
+})
+export class CoverDialogComponent {
+  constructor(
+    public dialogRef: MatDialogRef<CoverDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+  onNoClick(): void {
+    console.log()
+    this.dialogRef.close();
   }
 }

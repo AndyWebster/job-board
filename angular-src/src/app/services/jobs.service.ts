@@ -39,27 +39,25 @@ export class JobsService {
     });
   }
 
-  getJobs(keywords?) {
-    if(keywords){
-      this.urlId = "";
-      var i;
-      for (i = 0; i < keywords.length; i++) {
-        let id = String(keywords[i]);
-        if(i) {
-          var res = this.urlId.concat("&", id);
-        } else {
-          var res = this.urlId.concat(id);
-        }
-        this.urlId = res;
-      }
-
-      return this.http.get(`${this.uri}/search/${this.urlId}`)
-
-    } else {
-      return this.http.get(`${this.uri}`)
-    }
+  getJobs() {
+    return this.http.get(`${this.uri}`)
   }
 
+  searchJobs(keywords){
+    this.urlId = "";
+    var i;
+    for (i = 0; i < keywords.length; i++) {
+      let id = String(keywords[i]);
+      if(i) {
+        var res = this.urlId.concat("&", id);
+      } else {
+        var res = this.urlId.concat(id);
+      }
+      this.urlId = res;
+    }
+    return this.http.get(`${this.uri}/search/${this.urlId}`)
+  }
+  
   findJobs(jobs) {
     var jobList = JSON.parse(jobs);
     this.urlId = "";

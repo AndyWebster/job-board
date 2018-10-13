@@ -20,8 +20,8 @@
             <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="job.collapsed" class="material-icons more">expand_less</mat-icon>
             <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="!job.collapsed" class="material-icons more">expand_more</mat-icon>
             <button mat-flat-button color="accent" [routerLink]="['/edit', job._id]">Edit</button>
-            <button mat-flat-button 
-            matBadge="{{job.applications.length}}" matBadgePosition="after" matBadgeColor="accent" 
+            <button mat-flat-button [disabled]="!job.applications.length"
+            matBadge="{{job.applications.length}}" matBadgePosition="after" matBadgeColor="accent" [matBadgeHidden]="!job.applications.length"
             (click)="job.ShowApplicants = !job.ShowApplicants">Applicants</button>
             <button mat-flat-button color="warn" (click)="deleteJob(job._id)">Delete</button>
           </div>
@@ -44,8 +44,8 @@
             <ng-container matColumnDef="cover">
               <th mat-header-cell *matHeaderCellDef> Cover letter </th>
               <td mat-cell *matCellDef="let applicant">
-                <button mat-icon-button color="accent" matTooltip="Click to read {{applicant.name}}'s cover letter.">
-                    <mat-icon aria-label="Cover letter button">description</mat-icon>
+                <button (click)="openDialog(applicant.cover, applicant.name)" mat-icon-button color="accent" matTooltip="Click to read {{applicant.name}}'s cover letter.">
+                  <mat-icon aria-label="Cover letter button">description</mat-icon>
                 </button></td>
             </ng-container>
             <ng-container matColumnDef="cv">
