@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { MessageService } from '../services/message.service';
-
+import { url } from '../url';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class JobsService {
   job: any;
   urlId :String;
   // TODO, remove local host for development server calls
-  uri = 'joblists';
+  uri = `${url}/joblists`;
 
   constructor(
     private http: HttpClient,
@@ -39,8 +39,25 @@ export class JobsService {
     });
   }
 
-  getJobs() {
-    return this.http.get(`${this.uri}`)
+  getJobs(keywords?) {
+    if(keywords){
+      this.urlId = "";
+      var i;
+      for (i = 0; i < keywords.length; i++) {
+        let id = String(keywords[i]);
+        if(i) {
+          var res = this.urlId.concat("&", id);
+        } else {
+          var res = this.urlId.concat(id);
+        }
+        this.urlId = res;
+      }
+
+      return this.http.get(`${this.uri}/search/${this.urlId}`)
+
+    } else {
+      return this.http.get(`${this.uri}`)
+    }
   }
 
   findJobs(jobs) {

@@ -45,13 +45,32 @@ router.route('/').get(function (req, res) {
   });
 });
 
+router.route('/search/:keywords').get(function (req, res) {
+
+  let keywords = req.params.keywords;
+  if (keywords.includes("&")) {
+    var words = keywords.split("&");
+    //TODO multiple find of many keywords
+    var i;
+    
+    for(i=0; i < words.length; i++){
+      JobList = []
+    }
+  } else {
+    var search = keywords;
+    //TODO single find of 1 keyword
+    Job.find({"title": new RegExp(search, 'i')}, (jobList) => {
+      res.send(jobList);
+    });
+
+  }
+  
+});
+
 // Find all jobs from array of job ID
 router.route('/find/:id').get(function (req, res) {
   // parse id string from url
   let idString = req.params.id;
-  
-
-
   if (idString.includes("&")) {
     var jobs = idString.split("&");
   } else {

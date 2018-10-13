@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { HttpParams, HttpClient } from '@angular/common/http';
+import { url } from '../../url';
 
 @Component({
   selector: 'app-profile',
@@ -11,12 +12,13 @@ import { HttpParams, HttpClient } from '@angular/common/http';
 export class ProfileComponent implements OnInit {
   user:Object;
   displayedColumns: string[] = ['name', 'delete', 'download'];
-  uri = 'upload';
+
+  uri = `${url}/upload`;
 
   constructor(
     private authService: AuthService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {

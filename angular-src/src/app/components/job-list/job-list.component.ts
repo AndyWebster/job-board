@@ -12,6 +12,7 @@ import { MessageService } from '../../services/message.service';
 export class JobListComponent implements OnInit {
   
   jobs: Job[];
+  keywords = ""
 
   constructor(
     private jobservice: JobsService,
@@ -23,25 +24,24 @@ export class JobListComponent implements OnInit {
   }
 
   getJobs(): void {
-
     this.jobservice
     .getJobs()
     .subscribe((data: Job[]) => {
       this.jobs = data;
     })
   }
-  more(job) {
-    if(job.collapsed) {
-      job.collapsed = false;
-    } else {
-      job.collapsed = true;
-    }
+ 
+  searchJobs(): void {
+    /* if(this.keywords.length){
+      let keywordArray = this.keywords.split(" ");
+      this.jobservice
+      .getJobs(keywordArray)
+      .subscribe((data: Job[]) => {
+        this.jobs = data;
+      })
+    } */
   }
 
-  apply() {
-    
-  }
- 
 }
 
       

@@ -41,7 +41,12 @@ table {
   right: 10px;
 
 }
+.more {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
 
+}
 .job-card-content {
   text-align: center;
   max-width: 90%;

@@ -11,22 +11,25 @@
           <p class="more-button">Posted: {{job.date | date:'short' }}</p>
         </mat-card-title>
       </mat-card-header>
-      <mat-card-content class="job-card-content">
+      <mat-card-content (click)="job.collapsed = !job.collapsed" class="job-card-content">
         <div *ngIf="!job.collapsed">{{ job.description | slice:0:50 }} ...</div>
         <div *ngIf="job.collapsed">{{ job.description}}</div>
       </mat-card-content>
       <mat-card-actions>
           <div class="button-row">
-            <button mat-flat-button *ngIf="job.collapsed" (click)="job.collapsed = false">Less</button>
-            <button mat-flat-button *ngIf="!job.collapsed" (click)="job.collapsed = true">More</button>
-            <button mat-flat-button (click)="job.ShowApplicants = !job.ShowApplicants">Applicants</button>
+            <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="job.collapsed" class="material-icons more">expand_less</mat-icon>
+            <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="!job.collapsed" class="material-icons more">expand_more</mat-icon>
             <button mat-flat-button color="accent" [routerLink]="['/edit', job._id]">Edit</button>
+            <button mat-flat-button 
+            matBadge="{{job.applications.length}}" matBadgePosition="after" matBadgeColor="accent" 
+            (click)="job.ShowApplicants = !job.ShowApplicants">Applicants</button>
             <button mat-flat-button color="warn" (click)="deleteJob(job._id)">Delete</button>
           </div>
       </mat-card-actions>
-      <mat-card-content>
+      <mat-card-content *ngIf="job.ShowApplicants" >
+        <mat-card-subtitle *ngIf="!job.applications.length">No applicants yet, check back later.</mat-card-subtitle>
         <!-- Applicants table for each job -->
-        <table *ngIf="job.ShowApplicants" mat-table [dataSource]="job.applications" class="mat-elevation-z8">
+        <table *ngIf="job.applications.length" mat-table [dataSource]="job.applications" class="mat-elevation-z8">
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> Name </th>
               <td mat-cell *matCellDef="let applicant"> {{applicant.name}} </td>

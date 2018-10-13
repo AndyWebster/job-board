@@ -16,6 +16,7 @@ export class MyPostsComponent implements OnInit {
   displayedColumns: string[] = ['name', 'email', 'cover', 'cv', 'action'];
   applications: Object;
   active=false;
+  filteredJobs: Job[];
 
   constructor(
     private authService: AuthService,

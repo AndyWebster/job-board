@@ -1,4 +1,5 @@
 const express = require('express'),
+compression = require('compression'),
 path = require('path'),
 bodyParser = require('body-parser'),
 cors = require('cors'),
@@ -15,6 +16,8 @@ mongoose.connect(process.env.PROD_MONGODB, { useNewUrlParser: true }).then(
 
 const app = express();
 
+// compress all responses
+app.use(compression())
 
 // CORS Middleware 
 app.use(cors());

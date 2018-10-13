@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient } from '@angular/common/http';
 import { MessageService } from '../services/message.service';
+import { url } from '../url';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   user: any;
   UserId: String;
   // TODO, remove local host for development server calls
-  uri = 'users';
+  uri = `${url}/users`;
 
   constructor(
     private http: Http,

@@ -1,41 +1,38 @@
 <div class="flex-container">
 
+    <mat-card class="dashboard-card">
+        <mat-card-title>Search for jobs</mat-card-title>
+        <form class="filter-form">
+            <mat-form-field class="full width">
+              <input name="keywords" [(ngModel)]="keywords" type="search" matInput placeholder="Keywords e.g. Construction">
+              <mat-icon matSuffix (click)="searchJobs()">search</mat-icon>
+            </mat-form-field>
+            
+          </form>
+    </mat-card>
+
   <div class="mat-headline">Job search results</div>
-  
-  <!-- Jobs location variable -->
+  <div *ngIf="!jobs" class="mat-subheading-2">There's nothing here.</div>
   <div *ngFor="let job of jobs">
-    <mat-card  (click)="more(job)" class="dashboard-card" [class.mat-elevation-z2]="job.collapsed" [class.mat-elevation-z8]="!job.collapsed">
+    <mat-card class="dashboard-card" [class.mat-elevation-z2]="job.collapsed" [class.mat-elevation-z8]="!job.collapsed">
       <mat-card-header>
-        
         <mat-card-title>
           <div class="mat-title title">{{job.title}}</div>
           <div class="mat-subheading-1">Company: {{job.company}} <br>Location: {{job.location}} <br>Salary: £{{job.salary}}</div>
-
-          <!-- <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu" xPosition="before">
-            <button mat-menu-item>Report</button>
-            <button mat-menu-item>Save for later</button>
-          </mat-menu> -->
-
           <p class="date">Posted: {{job.date | date:'short' }}</p>
         </mat-card-title>
       </mat-card-header>
-
-      <mat-card-content class="dashboard-card-content">
+      <mat-card-content (click)="job.collapsed = !job.collapsed" class="dashboard-card-content">
         <div *ngIf="!job.collapsed">{{ job.description | slice:0:50 }} ...</div>
         <div *ngIf="job.collapsed">{{ job.description}}</div>
-        <mat-icon *ngIf="job.collapsed" class="material-icons more">expand_less</mat-icon>
-        <mat-icon *ngIf="!job.collapsed" class="material-icons more">expand_more</mat-icon>
       </mat-card-content>
-      
       <mat-card-actions>
+          <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="job.collapsed" class="material-icons more">expand_less</mat-icon>
+          <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="!job.collapsed" class="material-icons more">expand_more</mat-icon>
           <div class="button-row">
             <button mat-flat-button [routerLink]="['/apply', job._id]">Apply now!</button>
           </div>
-      </mat-card-actions>
-
+        </mat-card-actions>
     </mat-card>
   </div>
 </div>

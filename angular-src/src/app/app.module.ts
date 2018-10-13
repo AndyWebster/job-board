@@ -33,7 +33,7 @@ import { AuthGuard } from './guards/auth.guard';
 
 // Material imports
 
-import { MatTableModule, MatStepperModule, MatTooltipModule, MatSlideToggleModule, MatButtonToggleModule, MatSnackBarModule, MatDialogModule, MatTabsModule, MatDividerModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatExpansionModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule } from '@angular/material';
+import { MatBadgeModule, MatTableModule, MatStepperModule, MatTooltipModule, MatSlideToggleModule, MatButtonToggleModule, MatSnackBarModule, MatDialogModule, MatTabsModule, MatDividerModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatExpansionModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { FormsModule } from '@angular/forms';
@@ -67,7 +67,6 @@ export function tokenGetter() {
     EditJobComponent,
     MyPostsComponent,
     ApplyComponent,
-
     ApplicationsComponent,
     
   ],
@@ -103,6 +102,7 @@ export function tokenGetter() {
     MatSlideToggleModule,
     MatTooltipModule,
     MatStepperModule,
+    MatBadgeModule,
     MatTableModule,
       JwtModule.forRoot({
       config: {
