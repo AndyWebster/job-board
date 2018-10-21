@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyJobsComponent implements OnInit {
 
+  links = ['My Jobs', 'Posts', 'Profile'];
+
   constructor() { }
 
   ngOnInit() {

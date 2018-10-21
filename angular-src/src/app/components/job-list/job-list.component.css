@@ -21,8 +21,17 @@
   max-width: 600px;
   margin-bottom: 20px; 
   padding-bottom: 30px; 
-
 }
+
+.options-card {
+  /* Remove position to change overlapping behavoir */
+  position: relative;
+  z-index: inherit;
+  max-width: 400px;
+  margin-bottom: 20px; 
+  padding-bottom: 30px; 
+}
+
 
 .date {
   position: absolute;
@@ -32,7 +41,7 @@
 }
 
 .full-width {
-  width: 100%;
+  width: 98%;
 }
 
 
@@ -58,4 +67,8 @@
 
 .title {
   margin: 12px 0px 0px 0px;
+}
+
+.flip-list-move {
+  transition: transform 1s;
 }

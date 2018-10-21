@@ -1,45 +1,65 @@
 <div class="flex-container">
 
-    <mat-card class="dashboard-card">
+    <mat-card class="options-card">
         <mat-card-title>Search for jobs</mat-card-title>
         
-        <mat-card-actions>
-          <mat-form-field class="full-width">
-            <input name="keywords" [(ngModel)]="keywords" type="search" matInput placeholder="Keywords e.g. Construction">
-            <mat-icon matSuffix (click)="searchJobs()">search</mat-icon>
-          </mat-form-field>
-        </mat-card-actions>
-        <mat-card-subtitle>Filter your search</mat-card-subtitle>
+        
+        
 
-        <mat-card-actions>
+        <mat-card-content>
+          <mat-grid-list cols="2" rowHeight="2:1" rowHeight="70px">
+            <mat-grid-tile [colspan]="2" [rowspan]="1">
+              
 
-          <mat-form-field>
-              <mat-select [(ngModel)]="filterLocation" placeholder="Job location">
-                <mat-option *ngFor="let location of locations" [value]="location">
-                  {{location}}
-                </mat-option>
-              </mat-select>
-          </mat-form-field>
+              <mat-form-field class="full-width">
+                <input name="keywords" [(ngModel)]="keywords" type="search" matInput placeholder="Keywords e.g. Construction">
+                <mat-icon matSuffix (click)="searchJobs()">search</mat-icon>
+              </mat-form-field>
+
+
+            </mat-grid-tile>
+            
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              
+                <mat-form-field class="full-width">
+                  <mat-select [(ngModel)]="filterLocation" placeholder="City">
+                    <mat-option *ngFor="let location of locations" [value]="location">
+                      {{location}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+            </mat-grid-tile> 
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+              
+              <mat-form-field class="full-width">
+                <mat-select [(ngModel)]="filterSalary" placeholder="Salary">
+                  <mat-option *ngFor="let salary of salaries" [value]="salary.value">
+                    £{{salary.viewValue}}+
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </mat-grid-tile>
+          </mat-grid-list>  
+
+
           
-          <mat-form-field>
-            <mat-select [(ngModel)]="filterSalary" placeholder="Annual salary">
-              <mat-option *ngFor="let salary of salaries" [value]="salary.value">
-                £{{salary.viewValue}}+
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          
+          
           
 
-          <mat-form-field>
+          <!-- <mat-form-field>
             <input matInput [(ngModel)]="filterDate" [matDatepicker]="dp" placeholder="Choose a date">
             <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
             <mat-datepicker #dp></mat-datepicker>
 
-          </mat-form-field>
-        </mat-card-actions>
+          </mat-form-field> -->
+        </mat-card-content>
 
         <mat-card-actions>
-          <button mat-flat-button (click)="filter()">Update search</button>
+          <button mat-flat-button (click)="clearFilters()">Clear Filters</button>
+
         </mat-card-actions>
             
           
@@ -49,27 +69,31 @@
 
   <div class="mat-headline">Job search results</div>
   <div *ngIf="!jobs" class="mat-subheading-2">There's nothing here.</div>
-  <div *ngFor="let job of jobs">
-    <mat-card class="dashboard-card" [class.mat-elevation-z2]="job.collapsed" [class.mat-elevation-z8]="!job.collapsed">
-      <mat-card-header>
-        <mat-card-title>
-          <div class="mat-title title">{{job.title}}</div>
-          <div class="mat-subheading-1">Company: {{job.company}} <br>Location: {{job.location}} <br>Salary: £{{job.salary}}</div>
-          <p class="date">Posted: {{job.date | date:'short' }}</p>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content (click)="job.collapsed = !job.collapsed" class="dashboard-card-content">
-        <div *ngIf="!job.collapsed">{{ job.description | slice:0:50 }} ...</div>
-        <div *ngIf="job.collapsed">{{ job.description}}</div>
-      </mat-card-content>
-      <mat-card-actions>
-          <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="job.collapsed" class="material-icons more">expand_less</mat-icon>
-          <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="!job.collapsed" class="material-icons more">expand_more</mat-icon>
-          <div class="button-row">
-            <button mat-flat-button [routerLink]="['/apply', job._id]">Apply now!</button>
-          </div>
-        </mat-card-actions>
-    </mat-card>
+  <div>
+    <div *ngFor="let job of jobs">
+      <div [@slideInOut] *ngIf="salaryFilter(job.salary) && locationFilter(job.location)">
+        <mat-card class="dashboard-card" [class.mat-elevation-z2]="job.collapsed" [class.mat-elevation-z8]="!job.collapsed">
+          <mat-card-header>
+            <mat-card-title>
+              <div class="mat-title title">{{job.title}}</div>
+              <div class="mat-subheading-1">Company: {{job.company}} <br>Location: {{job.location}} <br>Salary: £{{job.salary}}</div>
+              <p class="date">Posted: {{job.date | date:'short' }}</p>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content (click)="job.collapsed = !job.collapsed" class="dashboard-card-content">
+            <div *ngIf="!job.collapsed">{{ job.description | slice:0:50 }} ...</div>
+            <div *ngIf="job.collapsed">{{ job.description}}</div>
+          </mat-card-content>
+          <mat-card-actions>
+              <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="job.collapsed" class="material-icons more">expand_less</mat-icon>
+              <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="!job.collapsed" class="material-icons more">expand_more</mat-icon>
+              <div class="button-row">
+                <button mat-flat-button [routerLink]="['/apply', job._id]">Apply now!</button>
+              </div>
+            </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
   </div>
 </div>
 

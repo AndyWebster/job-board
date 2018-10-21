@@ -21,6 +21,7 @@ import { MyJobsComponent } from './components/my-jobs/my-jobs.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
 import { CoverDialogComponent } from './components/my-posts/my-posts.component';
+import { TransitionGroupItemDirective, TransitionGroupComponent } from './components/job-list/transition-group';
 
 import { ApplyComponent } from './components/apply/apply.component';
 import { ApplicationsComponent } from './components/applications/applications.component';
@@ -71,7 +72,8 @@ export function tokenGetter() {
     CoverDialogComponent,
     ApplyComponent,
     ApplicationsComponent,
-    
+    TransitionGroupComponent, 
+    TransitionGroupItemDirective
   ],
   entryComponents: [CoverDialogComponent],
   imports: [

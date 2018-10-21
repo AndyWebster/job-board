@@ -74,6 +74,22 @@ export class JobsService {
     return this.http.get(`${this.uri}/find/${this.urlId}`)
   }
 
+  findApplyJobs(jobs) {
+    var jobList = JSON.parse(jobs);
+    this.urlId = "";
+    var i;
+    for (i = 0; i < jobList.length; i++) {
+      let id = String(jobList[i]);
+      if(i) {
+        var res = this.urlId.concat("&", id);
+      } else {
+        var res = this.urlId.concat(id);
+      }
+      this.urlId = res;
+    }
+    return this.http.get(`${this.uri}/find-apply/${this.urlId}`)
+  }
+
   postJob(job) {
     this.job = job;
     return this

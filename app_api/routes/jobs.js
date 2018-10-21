@@ -35,7 +35,7 @@ router.route('/remove/:id').delete(function (req, res) {
 
 // Defined get data(index or listing) route
 router.route('/').get(function (req, res) {
-  Job.find(function (err, jobList){
+  Job.find({}, {applications: 0}, function (err, jobList){
     if(err){
       console.log(err);
     }
@@ -61,7 +61,7 @@ router.route('/search/:keywords').get(function (req, res) {
     }
     
     
-    Job.find({title: {$in: regex}}, (err, jobList) => {
+    Job.find({title: {$in: regex}}, { applications: 0 },  (err, jobList) => {
       
       if(err){
         console.log(err);
@@ -96,8 +96,26 @@ router.route('/find/:id').get(function (req, res) {
   } else {
     var jobs = [idString];
   }
-  
   Job.find({ "_id": { $in: jobs }}, function (err, JobList){
+    if(err){
+      console.log(err);
+    }
+    else {
+      res.send(JobList);
+    }
+  })
+});
+
+// get job applied to data
+router.route('/find-apply/:id').get(function (req, res) {
+  // parse id string from url
+  let idString = req.params.id;
+  if (idString.includes("&")) {
+    var jobs = idString.split("&");
+  } else {
+    var jobs = [idString];
+  }
+  Job.find({ "_id": { $in: jobs }}, { applications: 0 },  function (err, JobList){
     if(err){
       console.log(err);
     }
