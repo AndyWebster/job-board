@@ -8,6 +8,8 @@ import { MyJobsComponent } from './components/my-jobs/my-jobs.component';
 import { AuthGuard } from './guards/auth.guard';
 import { EditJobComponent } from './components/edit-job/edit-job.component';
 import { ApplyComponent } from './components/apply/apply.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { CreateJobComponent } from './components/create-job/create-job.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'job-search', pathMatch: 'full' },
@@ -16,7 +18,10 @@ const routes: Routes = [
   { path: 'login', component: SignInComponent},
   { path: 'edit/:id', component: EditJobComponent, canActivate:[AuthGuard]},
   { path: 'apply/:id', component: ApplyComponent, canActivate:[AuthGuard]},
-  { path: 'dashboard', component: MyJobsComponent, canActivate:[AuthGuard]},
+  { path: 'my-jobs', component: MyJobsComponent, canActivate:[AuthGuard]},
+  { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard]},
+  { path: 'create-job', component: CreateJobComponent, canActivate:[AuthGuard]},
+  
 
   // TODO - other routes
 ];

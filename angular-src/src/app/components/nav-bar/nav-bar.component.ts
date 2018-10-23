@@ -12,6 +12,15 @@ import { MessageService } from '../../services/message.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent {
+  navLinks = [
+    {path:'job-search',label:'Search'},
+    {path:'my-jobs',label:'My Jobs'},
+    {path:'create-job',label:'Create'},
+    {path:'profile',label:'Profile'}
+    
+  ];
+
+  activeLink = this.navLinks[0];
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(

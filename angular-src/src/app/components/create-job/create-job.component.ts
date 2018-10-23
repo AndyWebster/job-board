@@ -43,7 +43,7 @@ export class CreateJobComponent implements OnInit {
       if (this.jobsservice.postJob(this.job)) {
         this.messageService.showMessage('Your job was successfully posted');
         this.resetForm()
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['my-jobs']);
       } else {
         console.log('something went wrong');
       }

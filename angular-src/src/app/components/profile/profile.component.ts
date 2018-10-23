@@ -55,26 +55,6 @@ export class ProfileComponent implements OnInit {
       })
   }
 
-  xdownloadFile(data: any, type: string) {
-    var blob = new Blob([data], { type: type});
-    console.log(blob);
-    var url = window.URL.createObjectURL(blob);
-    var pwa = window.open(url);
-    if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
-        alert( 'Please disable your Pop-up blocker and try again.');
-    }
-  }
-
-  downloadFile(route: string, filename: string = null): void{
-
-    const baseUrl = 'http://myserver/index.php/api';
-    const token = 'my JWT';
-    const headers = new HttpHeaders().set('authorization','Bearer '+token);
-    this.http.get(baseUrl + route,{headers, responseType: 'blob' as 'json'}).subscribe(
-        
-    )
-  }
-
   delete(path){
     this.http.delete(`${this.uri}/${path}`).subscribe(res => {
       

@@ -3,9 +3,9 @@ import { AuthService } from '../../services/auth.service';
 import { JobsService } from '../../services/jobs.service';
 import { MessageService } from '../../services/message.service';
 import { Job } from '../../job';
-
+import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-
+import { url } from '../../url';
 export interface DialogData {
   cover: string;
   name: string;
@@ -23,12 +23,14 @@ export class MyPostsComponent implements OnInit {
   applications: Object;
   active=false;
   filteredJobs: Job[];
+  uri = `${url}/upload`;
 
   constructor(
     private authService: AuthService,
     private jobservice: JobsService,
     public messageService: MessageService,
     public dialog: MatDialog,
+    private http: HttpClient,
   ) { }
 
   
@@ -93,6 +95,25 @@ export class MyPostsComponent implements OnInit {
     document.execCommand('copy');
     this.messageService.showMessage('Copied to clipboard');
     document.body.removeChild(el);
+  }
+
+  download(filename){
+    let headers = new HttpHeaders();
+    headers = headers.set('Accept', 'application/pdf');
+    this.http.get(`${this.uri}/${filename}`, { headers: headers, responseType: 'blob' })
+    .subscribe(
+      response => {
+        let dataType = response.type;
+        let binaryData = [];
+        binaryData.push(response);
+        let downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
+        if (filename)
+            downloadLink.setAttribute('download', filename);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+
+      })
   }
 
   getApplicants(){

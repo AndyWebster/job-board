@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   
-  <mat-sidenav
+<!--   <mat-sidenav
     #drawer
     class="sidenav"
     fixedInViewport="true"
@@ -10,7 +10,7 @@
     <mat-toolbar color="primary" class="mat-elevation-z2">Menu</mat-toolbar>
     <mat-nav-list>
       
-      <!-- TODO filters -->
+      
       <mat-list role="list">
 
         <mat-list-item role="listitem">
@@ -24,40 +24,49 @@
       </mat-list>
       
     </mat-nav-list>
-  </mat-sidenav>
+  </mat-sidenav> -->
   <mat-sidenav-content>
     <mat-toolbar color="primary" class="mat-elevation-z2">
 
 
       <mat-toolbar-row>
 
-        <!-- Menu draw button -->
-        <button
+
+        <!-- <button
           type="button"
           aria-label="Toggle sidenav"
           mat-icon-button
           (click)="drawer.toggle()"
           *ngIf="isHandset$ | async">
           <mat-icon aria-label="Side nav toggle icon">more_vert</mat-icon>
-        </button>
+        </button> -->
 
-        <!-- HEADING -->
+
         <span class="mat-heading" routerLink="/">Quite So!</span>
 
 
         <span class="spacer"></span>
 
-        <!-- BUTTONS TO RIGHT SIDE OF NAV -->
-        <!-- Buttons shown when logged out -->
-        <!-- <button class="log-button" *ngIf="authService.loggedIn()" mat-button color="accent" routerLink="/register">Register</button> -->
+
+
+
         <button class="log-button" *ngIf="authService.loggedIn()" mat-button color="accent" routerLink="/login">Login</button>
-        <!-- Buttons shown when logged in -->
+
         <button class="log-button" *ngIf="!authService.loggedIn()" mat-button color="accent" (click)="onLogoutClick()">Logout</button>
       </mat-toolbar-row>
 
       
 
     </mat-toolbar>
+    <nav mat-tab-nav-bar color="accent">
+      <a mat-tab-link
+         *ngFor="let link of navLinks"
+         [routerLink]="link.path"
+         routerLinkActive #rla="routerLinkActive"
+         [active]="rla.isActive">
+        {{link.label}}
+      </a>
+    </nav>
     
     <router-outlet></router-outlet>
 
