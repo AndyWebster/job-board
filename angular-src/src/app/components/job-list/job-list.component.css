@@ -12,6 +12,7 @@
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
   box-sizing: border-box;
+
 }
 
 .dashboard-card {
@@ -19,25 +20,31 @@
   position: relative;
   z-index: inherit;
   max-width: 600px;
-  margin-bottom: 20px; 
-  padding-bottom: 30px; 
+  margin-bottom: 10px; 
+  padding-bottom: 0px; 
+  padding-top: 0px; 
+
 }
 
 .options-card {
   /* Remove position to change overlapping behavoir */
   position: relative;
   z-index: inherit;
-  max-width: 400px;
-  margin-bottom: 20px; 
-  padding-bottom: 30px; 
+  max-width: 250px;
+  margin-bottom: 10px; 
+  padding-bottom: 0; 
+  padding-top: 0; 
 }
 
 
+
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
 .date {
   position: absolute;
   top: 5px;
   right: 10px;
-
 }
 
 .full-width {
@@ -45,19 +52,26 @@
 }
 
 
-.more {
+.icon {
   position: absolute;
   bottom: 5px;
   right: 10px;
+}
 
+.more {
+  position: absolute;
+  top: 5px;
+  right: 10px;
 }
 
 .dashboard-card-content {
   text-align: center;
+  margin-bottom: 0;
 }
 
 .mat-card-actions {
   text-align: center;
+  margin-bottom: 0;
 }
 
 .button-row button,
@@ -69,6 +83,23 @@
   margin: 12px 0px 0px 0px;
 }
 
-.flip-list-move {
-  transition: transform 1s;
+button {
+  margin-right: 8px;
+}
+
+
+
+.mat-card .last-child {
+  margin-bottom: 0;
+  height: 0;
+}
+
+.mat-subheading-1 {
+  margin: 0;
+}
+
+.viewport {
+  height: 800px;
+  width: 600px;
+  border: 1px solid black;
 }

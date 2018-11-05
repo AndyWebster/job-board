@@ -1,49 +1,61 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers} from '@angular/http';
+
 import 'rxjs/add/operator/map';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { MessageService } from '../services/message.service';
 import { url } from '../url';
+import { Observable } from 'rxjs';
+import { User } from '../user'
+
+export interface Response {
+  success: boolean;
+  msg: string;
+  token: any;
+  user: {
+    id: string,
+    name: string,
+    username: string,
+    email: string,
+  }
+}
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   authToken: any;
-  user: any;
+  user: User;
   UserId: String;
   // TODO, remove local host for development server calls
   uri = `${url}/users`;
 
+  
   constructor(
-    private http: Http,
+
     private httpClient: HttpClient,
     public jwtHelper: JwtHelperService,
     public messageService: MessageService
+    
     ) { }
 
-  registerUser(user){
-    let headers = new Headers();
+  registerUser(user): Observable<Response>{
+    let headers = new HttpHeaders();
     headers.append('Content-Type','application/json');
-    return this.http.post(`${this.uri}/register`, user, {headers: headers})
-      .map(res => res.json());
+    return this.httpClient.post<Response>(`${this.uri}/register`, user);
   }
 
-  authenticateUser(user){
-    let headers = new Headers();
-    headers.append('Content-Type','application/json');
-    return this.http.post(`${this.uri}/authenticate`, user, {headers: headers})
-      .map(res => res.json());
+  authenticateUser(user): Observable<Response>{
+    return this.httpClient.post<Response>(`${this.uri}/authenticate`, user);
   }
 
-  getProfile(){
-    let headers = new Headers();
+  getProfile(): Observable<User>{
+    let headers = new HttpHeaders();
     this.LoadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type','application/json');
-    return this.http.get(`${this.uri}/profile`, {headers: headers})
-      .map(res => res.json());
+    headers = headers.set('Authorization', this.authToken);
+    return this.httpClient.get<User>(`${this.uri}/profile`, {headers: headers});
   }
 
   storeUserData(token, user){
@@ -74,16 +86,6 @@ export class AuthService {
     this.user = null;
     localStorage.clear();
   }
-
-/*   UserId() {
-    this.getProfile()
-    .subscribe(
-      profile => {
-        console.log("1 " + profile.user._id)
-        this.user = profile.user;
-      } 
-    )
-  } */
   
   jobType(application){
     if(application){
@@ -95,11 +97,10 @@ export class AuthService {
 
   addJob(jobId, userId, application?){
     const jobType = this.jobType(application);
-    let headers = new Headers();
-    headers.append('Content-Type','application/json');
+
     if (jobId) {
       return this
-      .http
+      .httpClient
       .post(`${this.uri}/${jobType}/${userId}`, jobId)
     } else {
       console.log('Invalid Job ID sent to auth.service');
@@ -116,8 +117,8 @@ export class AuthService {
     
     this.getProfile()
     .subscribe(
-      profile => {
-      this.UserId = profile.user._id; 
+      data => {
+      this.UserId = data["user"]._id; 
       this.httpClient.post(`${this.uri}/upload/${this.UserId}`, fileInfo)
       .subscribe(
         res => {  }
@@ -133,11 +134,10 @@ export class AuthService {
   }
 
   removeJob(jobId, userId){
-    let headers = new Headers();
-    headers.append('Content-Type','application/json');
+    
     if (jobId) {
       return this
-      .http
+      .httpClient
       .post(`${this.uri}/remove/${userId}`, jobId)
     } else {
       console.log('Invalid Job ID sent to auth.service');

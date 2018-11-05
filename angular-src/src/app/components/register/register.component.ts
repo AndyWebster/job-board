@@ -50,10 +50,10 @@ export class RegisterComponent {
     this.authService.registerUser(user).subscribe(data => {
       if(data.success){
         this.messageService.showMessage('You are now registered and can log in');
-        this.router.navigate(['/login']);
+        this.router.navigate(['login']);
       } else {
         this.messageService.showError('Something went wrong');
-        this.router.navigate(['/register']);
+        this.router.navigate(['register']);
       }
     })
 

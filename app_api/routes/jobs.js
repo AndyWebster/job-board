@@ -7,7 +7,7 @@ let Job = require('../models/jobList');
 
 
 // Defined store route
-router.route('/add').post( (req, res) => {
+router.post('/add', (req, res) => {
   let jobList = new Job(req.body);
   jobList.save( (err, response) => {
     if(err) {
@@ -21,7 +21,7 @@ router.route('/add').post( (req, res) => {
 });
 
 // Defined delete | remove | destroy route
-router.route('/remove/:id').delete(function (req, res) {
+router.delete('/remove/:id', function (req, res) {
   Job.findByIdAndRemove({_id: req.params.id}, (err, response) => {
     if(err) {
       response = { error: true, message: "Error adding data" };
@@ -34,7 +34,7 @@ router.route('/remove/:id').delete(function (req, res) {
 });
 
 // Defined get data(index or listing) route
-router.route('/').get(function (req, res) {
+router.get('/', function (req, res) {
   Job.find({}, {applications: 0}, function (err, jobList){
     if(err){
       console.log(err);
@@ -45,7 +45,7 @@ router.route('/').get(function (req, res) {
   });
 });
 
-router.route('/search/:keywords').get(function (req, res) {
+router.get('/search/:keywords', function (req, res) {
 
   let keywords = req.params.keywords;
 
@@ -88,7 +88,7 @@ router.route('/search/:keywords').get(function (req, res) {
 });
 
 // Find all jobs from array of job ID
-router.route('/find/:id').get(function (req, res) {
+router.get('/find/:id', function (req, res) {
   // parse id string from url
   let idString = req.params.id;
   if (idString.includes("&")) {
@@ -107,7 +107,7 @@ router.route('/find/:id').get(function (req, res) {
 });
 
 // get job applied to data
-router.route('/find-apply/:id').get(function (req, res) {
+router.get('/find-apply/:id', function (req, res) {
   // parse id string from url
   let idString = req.params.id;
   if (idString.includes("&")) {
@@ -157,7 +157,7 @@ router.put('/reject/:jobId', (req, res) => {
   });
 })
 // Defined edit route
-router.route('/edit/:id').get(function (req, res) {
+router.get('/edit/:id', function (req, res) {
   let id = req.params.id;
   Job.findById(id, function (err, jobList){
       res.json(jobList);
@@ -165,7 +165,7 @@ router.route('/edit/:id').get(function (req, res) {
 });
 
 //  Defined update route
-router.route('/update/:id').post(function (req, res) {
+router.post('/update/:id', function (req, res) {
   Job.findById(req.params.id, function(err, jobList) {
     if (!jobList)
       return next(new Error('Could not load Document'));

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { url } from '../../url';
 import 'rxjs/Rx';
+import { User } from '../../user';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +12,7 @@ import 'rxjs/Rx';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user:Object;
+  user:any;
   displayedColumns: string[] = ['name', 'delete', 'download'];
 
   uri = `${url}/upload`;
@@ -26,13 +27,11 @@ export class ProfileComponent implements OnInit {
     this.getUser();
   }
 
-  ngAfterViewInit(){
-    this.getUser();
-  }
+
 
   getUser() {
-    this.authService.getProfile().subscribe(profile => {
-      this.user = profile.user;
+    this.authService.getProfile().subscribe(data => {
+      this.user = data["user"];
     });
   }
 

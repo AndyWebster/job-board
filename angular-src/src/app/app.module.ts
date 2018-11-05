@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UploadModule } from './upload/upload.module';
+import { RouterModule, Routes } from '@angular/router';
 
 // Component imports
 import { AppRoutingModule } from './app-routing.module';
@@ -21,7 +22,7 @@ import { MyJobsComponent } from './components/my-jobs/my-jobs.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { MyPostsComponent } from './components/my-posts/my-posts.component';
 import { CoverDialogComponent } from './components/my-posts/my-posts.component';
-import { TransitionGroupItemDirective, TransitionGroupComponent } from './components/job-list/transition-group';
+import { ConfirmDialogComponent } from './components/my-posts/my-posts.component';
 
 import { ApplyComponent } from './components/apply/apply.component';
 import { ApplicationsComponent } from './components/applications/applications.component';
@@ -32,11 +33,11 @@ import { AuthService } from './services/auth.service';
 
 import { DatePipe } from '@angular/common';
 import { AuthGuard } from './guards/auth.guard';
-
+import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 
 // Material imports
 
-import { MatBadgeModule, MatTableModule, MatStepperModule, MatTooltipModule, MatSlideToggleModule, MatButtonToggleModule, MatSnackBarModule, MatDialogModule, MatTabsModule, MatDividerModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatExpansionModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule } from '@angular/material';
+import { MatRippleModule, MatBadgeModule, MatTableModule, MatStepperModule, MatTooltipModule, MatSlideToggleModule, MatButtonToggleModule, MatSnackBarModule, MatDialogModule, MatTabsModule, MatDividerModule, MatDatepickerModule, MatInputModule, MatSelectModule, MatExpansionModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule, MatCardModule, MatMenuModule, MatFormFieldModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { FormsModule } from '@angular/forms';
@@ -45,7 +46,36 @@ import { HttpModule } from '@angular/http';
 // Misc
 
 
-
+const modules = [
+  MatToolbarModule,
+  ScrollDispatchModule,
+  MatRippleModule,
+  MatButtonModule,
+  MatSidenavModule,
+  MatIconModule,
+  MatListModule,
+  MatGridListModule,
+  MatCardModule,
+  MatMenuModule,
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatSelectModule,
+  MatInputModule,
+  MatDatepickerModule,
+  MatDividerModule,
+  MatMomentDateModule,
+  ReactiveFormsModule,
+  MatTabsModule,
+  MatDialogModule,
+  MatSnackBarModule,
+  MatButtonToggleModule,
+  MatSlideToggleModule,
+  MatTooltipModule,
+  MatStepperModule,
+  MatBadgeModule,
+  MatTableModule,
+  MatToolbarModule,
+];
 
 
 
@@ -70,46 +100,24 @@ export function tokenGetter() {
     EditJobComponent,
     MyPostsComponent,
     CoverDialogComponent,
+    ConfirmDialogComponent,
     ApplyComponent,
     ApplicationsComponent,
-    TransitionGroupComponent, 
-    TransitionGroupItemDirective
+    
   ],
-  entryComponents: [CoverDialogComponent],
+  entryComponents: [CoverDialogComponent, ConfirmDialogComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    RouterModule, 
     FormsModule,
     HttpModule,
     HttpClientModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
+    
     LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatExpansionModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatDividerModule,
-    MatMomentDateModule,
-    ReactiveFormsModule,
-    MatTabsModule,
-    MatDialogModule,
-   
-    MatSnackBarModule,
-    MatButtonToggleModule,
-    MatSlideToggleModule,
-    MatTooltipModule,
-    MatStepperModule,
-    MatBadgeModule,
-    MatTableModule,
+
+    ...modules,
       JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -121,6 +129,23 @@ export function tokenGetter() {
     
     
   ],
+  exports: [...modules, 
+    AppComponent,
+    NavBarComponent,
+    JobListComponent,
+    FilterPanelComponent,
+    CreateJobComponent,
+    MyJobsComponent,
+    RegisterComponent,
+    SignInComponent,
+    ProfileComponent,
+    EditJobComponent,
+    MyPostsComponent,
+    CoverDialogComponent,
+    ConfirmDialogComponent,
+    ApplyComponent,
+    ApplicationsComponent,
+    ],
   providers: [ DatePipe, JobsService, ValidateService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })

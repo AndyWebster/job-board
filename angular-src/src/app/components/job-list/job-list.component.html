@@ -1,99 +1,120 @@
 <div class="flex-container">
 
-    <mat-card class="options-card">
-        <mat-card-title>Search for jobs</mat-card-title>
-        
-        
-        
+  <mat-card class="options-card">
+    <button mat-button class="full-width"  
+    (click)="searchExpand && keywords.length ? searchJobs():searchExpand = !searchExpand"
+    color="{{searchExpand ? 'accent':'primary'}}">
+    {{ searchExpand && keywords.length ? 'Go':'Search for jobs' }}</button>
+    <mat-card-content [@openClose]="searchExpand ? 'open' : 'closed'">
+      <mat-form-field class="full-width">
+        <input name="keywords" [(ngModel)]="keywords" type="search" matInput placeholder="Keywords e.g. Construction">
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-content class ="last-child">
+    </mat-card-content>
+  </mat-card>
 
-        <mat-card-content>
-          <mat-grid-list cols="2" rowHeight="2:1" rowHeight="70px">
-            <mat-grid-tile [colspan]="2" [rowspan]="1">
-              
+  <mat-card class="options-card">
+    <button mat-button class="full-width"  
+    (click)="filterLocation != null || filterSalary != null ||  filterCompany != null ? clearFilters():filtExpand = !filtExpand"
+    color="{{ filterLocation != null || filterSalary != null ||  filterCompany != null ? 'warn':'primary'}}">
+    {{ filterLocation != null || filterSalary != null ||  filterCompany != null ? 'Clear Filters':'Filter jobs' }}</button>
 
-              <mat-form-field class="full-width">
-                <input name="keywords" [(ngModel)]="keywords" type="search" matInput placeholder="Keywords e.g. Construction">
-                <mat-icon matSuffix (click)="searchJobs()">search</mat-icon>
-              </mat-form-field>
+    <mat-card-actions [@openClose]="filtExpand ? 'open' : 'closed'">
+      <mat-form-field class="partial-width">
+        <mat-select [(ngModel)]="filterLocation" placeholder="City">
+          <mat-option *ngFor="let location of locations" [value]="location">
+            {{location}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="partial-width">
+        <mat-select [(ngModel)]="filterCompany" placeholder="Company">
+          <mat-option *ngFor="let company of companies" [value]="company">
+            {{company}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="partial-width">
+        <mat-select [(ngModel)]="filterSalary" placeholder="Salary">
+          <mat-option *ngFor="let salary of salaries" [value]="salary.value">
+            £{{salary.viewValue}}+
+          </mat-option>
+        </mat-select>
+      </mat-form-field> 
+    </mat-card-actions>
+    <mat-card-content class ="last-child">
+    </mat-card-content>
+  </mat-card>
 
-
-            </mat-grid-tile>
-            
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-              
-                <mat-form-field class="full-width">
-                  <mat-select [(ngModel)]="filterLocation" placeholder="City">
-                    <mat-option *ngFor="let location of locations" [value]="location">
-                      {{location}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-            </mat-grid-tile> 
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-              
-              <mat-form-field class="full-width">
-                <mat-select [(ngModel)]="filterSalary" placeholder="Salary">
-                  <mat-option *ngFor="let salary of salaries" [value]="salary.value">
-                    £{{salary.viewValue}}+
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-            </mat-grid-tile>
-          </mat-grid-list>  
-
-
-          
-          
-          
-          
-
-          <!-- <mat-form-field>
-            <input matInput [(ngModel)]="filterDate" [matDatepicker]="dp" placeholder="Choose a date">
-            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-            <mat-datepicker #dp></mat-datepicker>
-
-          </mat-form-field> -->
-        </mat-card-content>
-
-        <mat-card-actions>
-          <button mat-flat-button (click)="clearFilters()">Clear Filters</button>
-
-        </mat-card-actions>
-            
-          
+  <mat-card class="options-card">
 
 
-    </mat-card>
+    <button mat-button  class="full-width" 
+    (click)="sortExpand = !sortExpand"
+    color="{{sortExpand ? 'accent':'primary'}}">
+    Sort jobs</button>
 
+    <mat-card-actions [@openClose]="sortExpand ? 'open' : 'closed'" >
+      <mat-slide-toggle value="" [(ngModel)]="sortAscend">{{ sortAscend ? 'Ascending':'Descending'}}</mat-slide-toggle>
+    </mat-card-actions>
+    <mat-card-actions [@openClose]="sortExpand ? 'open' : 'closed'" >
+      
+
+      <mat-button-toggle-group name="fontStyle" aria-label="Font Style" #group="matButtonToggleGroup">
+        <mat-button-toggle value="date">Date</mat-button-toggle>
+        <mat-button-toggle value="salary">Salary</mat-button-toggle>
+      </mat-button-toggle-group>
+      
+    </mat-card-actions>
+    <mat-card-content class ="last-child">
+    </mat-card-content>
+  </mat-card>
+  
   <div class="mat-headline">Job search results</div>
-  <div *ngIf="!jobs" class="mat-subheading-2">There's nothing here.</div>
-  <div>
+  <div >
+
+    
     <div *ngFor="let job of jobs">
-      <div [@slideInOut] *ngIf="salaryFilter(job.salary) && locationFilter(job.location)">
-        <mat-card class="dashboard-card" [class.mat-elevation-z2]="job.collapsed" [class.mat-elevation-z8]="!job.collapsed">
+      <div [@slideInOut] *ngIf="salaryFilter(job.salary) && locationFilter(job.location) && companyFilter(job.company)">
+        <mat-card matRipple (click)="job.expand = !job.expand" class="dashboard-card" >
           <mat-card-header>
             <mat-card-title>
               <div class="mat-title title">{{job.title}}</div>
-              <div class="mat-subheading-1">Company: {{job.company}} <br>Location: {{job.location}} <br>Salary: £{{job.salary}}</div>
-              <p class="date">Posted: {{job.date | date:'short' }}</p>
+              <div class="mat-subheading-1">Salary: £{{job.salary}}</div>
+              <div [@openClose]="job.expand ? 'open' : 'closed'" class="mat-subheading-1">Company: {{job.company}}</div>
+              <div class="mat-subheading-1">Location: {{job.location}}</div>
+              <p class="date">{{job.date | date:"dd/MM/yy" }}</p>
+              <mat-icon (click)="job.expand = !job.expand" *ngIf="job.expand" class="material-icons icon">expand_less</mat-icon>
+              <mat-icon (click)="job.expand = !job.expand" *ngIf="!job.expand" class="material-icons icon">expand_more</mat-icon>
             </mat-card-title>
           </mat-card-header>
-          <mat-card-content (click)="job.collapsed = !job.collapsed" class="dashboard-card-content">
-            <div *ngIf="!job.collapsed">{{ job.description | slice:0:50 }} ...</div>
-            <div *ngIf="job.collapsed">{{ job.description}}</div>
+
+          
+
+          <mat-card-content class="dashboard-card-content">
+
+            <div id="desc" [@openClose]="job.expand ? 'open' : 'closed'">{{ job.description}}</div>
           </mat-card-content>
-          <mat-card-actions>
-              <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="job.collapsed" class="material-icons more">expand_less</mat-icon>
-              <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="!job.collapsed" class="material-icons more">expand_more</mat-icon>
-              <div class="button-row">
-                <button mat-flat-button [routerLink]="['/apply', job._id]">Apply now!</button>
-              </div>
-            </mat-card-actions>
+
+          
+
+          <mat-card-actions [@openClose]="job.expand ? 'open' : 'closed'">
+            <div class="button-row">
+              <button mat-flat-button color="primary" [routerLink]="['/apply', job._id]" >Apply now!</button>
+            </div>
+          </mat-card-actions>
+          <mat-card-content class ="last-child">
+          </mat-card-content>
         </mat-card>
+        
       </div>
     </div>
   </div>
+  <div class="mat-subheading-2"> Please try adding search parameters or removing filters</div>
+
+  
 </div>
 

@@ -3,9 +3,13 @@ import { AuthService } from '../../services/auth.service';
 import { JobsService } from '../../services/jobs.service';
 import { MessageService } from '../../services/message.service';
 import { Job } from '../../job';
-import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
+import { User } from '../../user';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { url } from '../../url';
+import { cardFade, cardOpenClose } from '../../animations';
+import { ActivatedRoute, Router } from '@angular/router';
+
 export interface DialogData {
   cover: string;
   name: string;
@@ -14,10 +18,11 @@ export interface DialogData {
 @Component({
   selector: 'app-my-posts',
   templateUrl: './my-posts.component.html',
-  styleUrls: ['./my-posts.component.css']
+  styleUrls: ['./my-posts.component.css'],
+  animations: [cardFade, cardOpenClose]
 })
 export class MyPostsComponent implements OnInit {
-  user:any;
+  user:User;
   jobs: Job[];
   displayedColumns: string[] = ['name', 'email', 'cover', 'cv', 'action'];
   applications: Object;
@@ -31,6 +36,7 @@ export class MyPostsComponent implements OnInit {
     public messageService: MessageService,
     public dialog: MatDialog,
     private http: HttpClient,
+    private router: Router,
   ) { }
 
   
@@ -39,8 +45,8 @@ export class MyPostsComponent implements OnInit {
   };
 
   getProfile() {
-    this.authService.getProfile().subscribe(profile => {
-      this.user = profile.user;
+    this.authService.getProfile().subscribe(data => {
+      this.user = data["user"];
       this.getJobs();
     },
     err => {
@@ -50,9 +56,11 @@ export class MyPostsComponent implements OnInit {
     )};
 
   getJobs(): void {
-    if(this.user.jobs.length===0){
-      this.active=false
+    if(!this.user.jobs.length){
+      
+      this.active=false;
     } else {
+      console.log(this.user.jobs.length);
       this.jobservice
       .findJobs(JSON.stringify(this.user.jobs))
       .subscribe((data: Job[]) => {
@@ -68,11 +76,12 @@ export class MyPostsComponent implements OnInit {
   deleteJob(id){
     
     if (this.jobservice.deleteJob(id)) {
-      this.messageService.showMessage('Success');
-      this.getJobs();
+      this.messageService.showMessage('Job deleted');
     } else {
       this.messageService.showError('Something went wrong');
     };
+    return new Promise(() => {setTimeout(() => {this.getJobs();}, 400);});
+    
   }
 
   deleteApplication(jobId, userId){
@@ -85,6 +94,9 @@ export class MyPostsComponent implements OnInit {
       this.messageService.showError('Something went wrong');
     };
   }
+
+
+
 
   copyText(str){
     /* Get the text field */
@@ -120,6 +132,24 @@ export class MyPostsComponent implements OnInit {
     
   }
 
+
+  confirmDialog(id): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '250px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if(result){
+        this.deleteJob(id);
+
+      } else {
+        this.getJobs();
+      }
+    });
+  }
+
+  
   openDialog(coverString, coverName): void {
     const dialogRef = this.dialog.open(CoverDialogComponent, {
       width: '600px',
@@ -142,5 +172,23 @@ export class CoverDialogComponent {
   onNoClick(): void {
     console.log()
     this.dialogRef.close();
+    
   }
+}
+
+
+@Component({
+  selector: 'app-confirm-dialog',
+  templateUrl: './confirm-dialog.component.html',
+})
+export class ConfirmDialogComponent {
+
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 }

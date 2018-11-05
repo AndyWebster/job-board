@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import {Router} from '@angular/router';
 import { MessageService } from '../../services/message.service';
+import { User } from '../../user';
 
 @Component({
   selector: 'app-sign-in',
@@ -36,9 +37,9 @@ export class SignInComponent {
     this.authService.authenticateUser(user).subscribe(data => {
       
       if(data.success){
-        this.authService.storeUserData(data.token, data.users);
+        this.authService.storeUserData(data.token, data.user);
         this.messageService.showMessage('You are now logged in');
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['profile']);
       } else {
         this.messageService.showError(data.msg);
         this.router.navigate(['login']);

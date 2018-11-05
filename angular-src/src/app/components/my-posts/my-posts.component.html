@@ -1,75 +1,95 @@
 
-<div *ngIf="active" class="flex-container">
-  <div class="mat-headline">Posts:</div>
-  <!-- Iterate through posts on user account -->
-  <div *ngFor="let job of jobs">
-    <mat-card class="job-card" [class.mat-elevation-z2]="job.collapsed" [class.mat-elevation-z8]="!job.collapsed">
-      <mat-card-header>
-        <mat-card-title>
-          <div class="mat-title title">{{job.title}}</div>
-          <div class="mat-subheading-1">Company: {{job.company}} <br>Location: {{job.location}} <br>Salary: £{{job.salary}}</div>
-          <p class="more-button">Posted: {{job.date | date:'short' }}</p>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content (click)="job.collapsed = !job.collapsed" class="job-card-content">
-        <div *ngIf="!job.collapsed">{{ job.description | slice:0:50 }} ...</div>
-        <div *ngIf="job.collapsed">{{ job.description}}</div>
-      </mat-card-content>
-      <mat-card-actions>
-          <div class="button-row">
-            <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="job.collapsed" class="material-icons more">expand_less</mat-icon>
-            <mat-icon (click)="job.collapsed = !job.collapsed" *ngIf="!job.collapsed" class="material-icons more">expand_more</mat-icon>
-            <button mat-flat-button color="accent" [routerLink]="['/edit', job._id]">Edit</button>
-            <button mat-flat-button [disabled]="!job.applications.length"
-            matBadge="{{job.applications.length}}" matBadgePosition="after" matBadgeColor="accent" [matBadgeHidden]="!job.applications.length"
-            (click)="job.ShowApplicants = !job.ShowApplicants">Applicants</button>
-            <button mat-flat-button color="warn" (click)="deleteJob(job._id)">Delete</button>
-          </div>
-      </mat-card-actions>
-      <mat-card-content *ngIf="job.ShowApplicants" >
-        <mat-card-subtitle *ngIf="!job.applications.length">No applicants yet, check back later.</mat-card-subtitle>
-        <!-- Applicants table for each job -->
-        <table *ngIf="job.applications.length" mat-table [dataSource]="job.applications" class="mat-elevation-z8">
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> Name </th>
-              <td mat-cell *matCellDef="let applicant"> {{applicant.name}} </td>
-            </ng-container>
-            <ng-container matColumnDef="email">
-              <th mat-header-cell *matHeaderCellDef> Email </th>
-              <td mat-cell *matCellDef="let applicant">
-                <button mat-icon-button color="accent" (click)="copyText(applicant.email)" matTooltip="Click to copy {{applicant.email}} to clipboard">
-                  <mat-icon aria-label="Email button">email</mat-icon>
-              </button></td>
-            </ng-container>
-            <ng-container matColumnDef="cover">
-              <th mat-header-cell *matHeaderCellDef> Cover letter </th>
-              <td mat-cell *matCellDef="let applicant">
-                <button (click)="openDialog(applicant.cover, applicant.name)" mat-icon-button color="accent" matTooltip="Click to read {{applicant.name}}'s cover letter.">
-                  <mat-icon aria-label="Cover letter button">description</mat-icon>
-                </button></td>
-            </ng-container>
-            <ng-container matColumnDef="cv">
-              <th mat-header-cell *matHeaderCellDef> CV </th>
-              <td mat-cell *matCellDef="let applicant">
-                <button download (click)="download(applicant.cv.filename)" mat-icon-button color="accent" matTooltip="Click to download {{applicant.name}}'s CV.">
-                  <mat-icon aria-label="CV letter button">get_app</mat-icon>
-                </button></td>
-            </ng-container>
-            <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef> Action </th>
-                <td mat-cell *matCellDef="let applicant">
-                  <button mat-icon-button color="warn" (click)="deleteApplication(job._id, applicant.userId)" matTooltip="Click to delete {{applicant.name}}'s application.">
-                    <mat-icon aria-label="CV letter button">delete</mat-icon>
-                  </button></td>
-              </ng-container>
+<div  class="flex-container">
+  <div class="mat-headline">My posts:</div>
+  
+  <mat-card  *ngIf="!active" class="profile-card">
+    <mat-card-subtitle>There's nothing here.</mat-card-subtitle>
+    <mat-card-actions>
+        <button mat-flat-button color="accent" [routerLink]="['/create-job']">Post a job</button>
+    </mat-card-actions>
+  </mat-card>
+  <div *ngIf="active">
+    <div [@fadeInOut] *ngFor="let job of jobs">
+      <mat-card matRipple (click)="job.expand = !job.expand" class="job-card">
+        <mat-card-header>
+          <mat-card-title>
+            <div class="mat-title title">{{job.title}}</div>
+            <div class="mat-subheading-1">Salary: £{{job.salary}}</div>
+            <div [@openClose]="job.expand ? 'open' : 'closed'" class="mat-subheading-1">Company: {{job.company}}</div>
+            <div class="mat-subheading-1">Location: {{job.location}}</div>
+            <p class="date">{{job.date | date:"dd/MM/yy" }}</p>
+            <mat-icon (click)="job.expand = !job.expand" *ngIf="job.expand" class="material-icons icon">expand_less</mat-icon>
+            <mat-icon (click)="job.expand = !job.expand" *ngIf="!job.expand" class="material-icons icon">expand_more</mat-icon>
+          </mat-card-title>
+          
+        </mat-card-header>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
+        <mat-card-content class="job-card-content">
+          <div id="desc" [@openClose]="job.expand ? 'open' : 'closed'">{{ job.description}}</div>
+        </mat-card-content>
+
+        <mat-card-actions [@openClose]="job.expand ? 'open' : 'closed'">
+            <div class="button-row">
+              
+              <button mat-flat-button color="accent" [routerLink]="['/edit', job._id]">Edit</button>
+              <button color="primary" mat-flat-button [disabled]="!job.applications.length"
+              matBadge="{{job.applications.length}}" matBadgePosition="after" matBadgeColor="accent" [matBadgeHidden]="!job.applications.length"
+              (click)="job.ShowApplicants = !job.ShowApplicants">Applicants</button>
+              <button mat-flat-button color="warn" (click)="confirmDialog(job._id)" (click)="job.expand = false">Delete</button>
+            </div>
+        </mat-card-actions>
+
+        
+
+      <mat-card-content [@openClose]="job.expand ? 'open' : 'closed'">
+        
+      
+      
+
+        <!-- Applicants table for each job -->
+        <table  mat-table [dataSource]="job.applications" class="mat-elevation-z8">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let applicant"> {{applicant.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let applicant">
+              <button mat-icon-button color="accent" (click)="copyText(applicant.email)" matTooltip="Click to copy {{applicant.email}} to clipboard">
+                <mat-icon aria-label="Email button">email</mat-icon>
+            </button></td>
+          </ng-container>
+          <ng-container matColumnDef="cover">
+            <th mat-header-cell *matHeaderCellDef> Cover letter </th>
+            <td mat-cell *matCellDef="let applicant">
+              <button (click)="openDialog(applicant.cover, applicant.name)" mat-icon-button color="accent" matTooltip="Click to read {{applicant.name}}'s cover letter.">
+                <mat-icon aria-label="Cover letter button">description</mat-icon>
+              </button></td>
+          </ng-container>
+          <ng-container matColumnDef="cv">
+            <th mat-header-cell *matHeaderCellDef> CV </th>
+            <td mat-cell *matCellDef="let applicant">
+              <button download (click)="download(applicant.cv.filename)" mat-icon-button color="accent" matTooltip="Click to download {{applicant.name}}'s CV.">
+                <mat-icon aria-label="CV letter button">get_app</mat-icon>
+              </button></td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef> Action </th>
+              <td mat-cell *matCellDef="let applicant">
+                <button mat-icon-button color="warn" (click)="deleteApplication(job._id, applicant.userId)" matTooltip="Click to delete {{applicant.name}}'s application.">
+                  <mat-icon aria-label="CV letter button">delete</mat-icon>
+                </button></td>
+            </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </mat-card-content>
+
+      <mat-card-content class ="last-child">
       </mat-card-content>
     </mat-card>
-    
-    
+  
     
   </div>
 </div>

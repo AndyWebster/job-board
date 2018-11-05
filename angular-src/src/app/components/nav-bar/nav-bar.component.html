@@ -27,11 +27,7 @@
   </mat-sidenav> -->
   <mat-sidenav-content>
     <mat-toolbar color="primary" class="mat-elevation-z2">
-
-
       <mat-toolbar-row>
-
-
         <!-- <button
           type="button"
           aria-label="Toggle sidenav"
@@ -40,24 +36,15 @@
           *ngIf="isHandset$ | async">
           <mat-icon aria-label="Side nav toggle icon">more_vert</mat-icon>
         </button> -->
-
-
         <span class="mat-heading" routerLink="/">Quite So!</span>
-
-
         <span class="spacer"></span>
-
-
-
-
         <button class="log-button" *ngIf="authService.loggedIn()" mat-button color="accent" routerLink="/login">Login</button>
-
         <button class="log-button" *ngIf="!authService.loggedIn()" mat-button color="accent" (click)="onLogoutClick()">Logout</button>
       </mat-toolbar-row>
 
       
-
     </mat-toolbar>
+
     <nav mat-tab-nav-bar color="accent">
       <a mat-tab-link
          *ngFor="let link of navLinks"
@@ -67,8 +54,10 @@
         {{link.label}}
       </a>
     </nav>
-    
-    <router-outlet></router-outlet>
+
+    <main [@routerTransition]="getState(o)">
+      <router-outlet #o="outlet"></router-outlet>
+    </main>
 
   </mat-sidenav-content>
 </mat-sidenav-container>

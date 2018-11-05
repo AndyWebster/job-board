@@ -13,14 +13,14 @@ import { CreateJobComponent } from './components/create-job/create-job.component
 
 const routes: Routes = [
   { path: '', redirectTo: 'job-search', pathMatch: 'full' },
-  { path: 'job-search', component: JobListComponent},
+  { path: 'job-search', component: JobListComponent, data: { state: 'job-search' }} ,
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: SignInComponent},
   { path: 'edit/:id', component: EditJobComponent, canActivate:[AuthGuard]},
   { path: 'apply/:id', component: ApplyComponent, canActivate:[AuthGuard]},
-  { path: 'my-jobs', component: MyJobsComponent, canActivate:[AuthGuard]},
-  { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard]},
-  { path: 'create-job', component: CreateJobComponent, canActivate:[AuthGuard]},
+  { path: 'my-jobs', component: MyJobsComponent, canActivate:[AuthGuard], data: { state: 'my-jobs' }},
+  { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard], data: { state: 'profile' }},
+  { path: 'create-job', component: CreateJobComponent, canActivate:[AuthGuard], data: { state: 'create-job' }},
   
 
   // TODO - other routes

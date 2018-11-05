@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { cardSlide, cardOpenClose } from '../../animations';
 
 import { Job } from '../../job';
 import { JobsService } from '../../services/jobs.service';
 import { MessageService } from '../../services/message.service';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {DateAdapter} from '@angular/material/core';
 import { trigger, state, style, animate, transition, keyframes, query, stagger } from '@angular/animations';
 
 
@@ -17,40 +18,26 @@ export interface ValueTable {
   selector: 'app-job-list',
   templateUrl: './job-list.component.html',
   styleUrls: ['./job-list.component.css'],
-  animations: [
-    trigger('slideInOut', [
-      transition('void => *', [
-        query('mat-card',style({transform: 'translateX(50%)', opacity: 0})),
-        query('mat-card',
-          stagger('600ms', [
-            animate('300ms ease-in-out', style({transform: 'translateX(0%)', opacity: 1}))
-        ]))
-      ]),
-      transition('* => void', [
-        query('mat-card',
-          stagger('600ms', [
-            animate('400ms ease-in-out', style({transform: 'translateX(-100%)', opacity: 0}))
-        ]))
-      ]),
-    ])
-      
-  ]
+  animations: [ cardSlide, cardOpenClose],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class JobListComponent implements OnInit {
   
-  jobs: Job[];
-  show = false;
-  keywords = ""
+  jobs: Job[] = [];
+  companies = [];
+  keywords = "";
   locations = [];
-  
+  sortType = 'date';
+  sortAscend = false;
+  filtExpand = false;
+  sortExpand = false;
+  searchExpand = true;
   // Filter variables
   filterDate: Date = null;
   filterLocation: string = null;
   filterSalary: number = null;
+  filterCompany: string = null;
 
-  get stateName(){
-    return this.show ? 'show' : 'hide'
-  }
 
   constructor(
     private jobservice: JobsService,
@@ -65,34 +52,89 @@ export class JobListComponent implements OnInit {
 
   }
 
+  sortDate(){
+    if(this.sortAscend){
+      this.jobs.sort(function(a, b){
+        var dateA = new Date(a.date).getTime();
+        var dateB = new Date(b.date).getTime();
+        return dateA > dateB ? 1 : -1;  
+      })
+    } else {
+      this.jobs.sort(function(b, a){
+        var dateA = new Date(a.date).getTime();
+        var dateB = new Date(b.date).getTime();
+        return dateA > dateB ? 1 : -1;  
+      })
+    }
+  }
+
+  sortSalary(){
+    if(this.sortAscend){
+      this.jobs.sort(function(a, b){
+        return a.salary-b.salary
+      })
+    } else {
+      this.jobs.sort(function(b, a){
+        return a.salary-b.salary
+      })
+    }
+    
+  }
+
+  sortJobs(sortType?){
+    if(sortType == 'date'){
+      this.sortDate();
+    } else if(sortType == 'salary'){
+      this.sortSalary()
+    }
+  }
+
   clearFilters(){
     this.filterDate = null;
     this.filterLocation = null;
     this.filterSalary = null;
-  }
+    this.filterCompany = null;
 
-/*   dateFilter(date){
-    if(!this.filterDate) return true
-    else return this.adapter.compareDate(this.filterDate, date);
-  } */
+    this.keywords = "";
+    this.getJobs();
+  }
 
   salaryFilter(salary){
-    if(this.filterSalary != null && salary < this.filterSalary) return false
-    else return true;
-  }
-  locationFilter(location){
-    if(!this.filterLocation) return true
-    else return this.filterLocation == location
+    if(this.filterSalary != null && salary < this.filterSalary){
+      return false
+    } else {
+      return true
+    }
   }
 
-  getJobs(): void {
+  locationFilter(location){
+    if(this.filterLocation == null){
+      return true
+    } else {
+      return this.filterLocation == location
+    }
+  }
+
+  companyFilter(company){
+    if(this.filterCompany == null){
+      return true
+    } else {
+      return this.filterCompany == company
+    }
+  }
+
+  getJobs() {
+    
     this.jobservice
     .getJobs()
     .subscribe((data: Job[]) => {
-      this.jobs = [];
-      this.jobs = data;
+
       this.setLocations(data);
+      this.setCompanies(data);
+      this.jobs = data
+      this.sortJobs(this.sortType)
     })
+    
   }
  
   setLocations(data){
@@ -101,6 +143,16 @@ export class JobListComponent implements OnInit {
       let place = data[i].location
       if(!this.locations.includes(place)){
         this.locations.push(place)
+      }
+    };
+  }
+
+  setCompanies(data){
+    var i;
+    for(i=0; i < data.length; i++){
+      let org = data[i].company
+      if(!this.companies.includes(org)){
+        this.companies.push(org)
       }
     };
   }
@@ -116,6 +168,7 @@ export class JobListComponent implements OnInit {
         this.setLocations(data);
       })
     } else {
+      
       this.getJobs();
     }
     

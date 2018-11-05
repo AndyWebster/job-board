@@ -49,3 +49,4 @@
 .mat-card-actions {
   text-align: center;
 }
+div.mat-form-field-infix { padding: 0em 0 !important }

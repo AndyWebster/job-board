@@ -21,10 +21,11 @@ table {
 .job-card {
   /* Remove position to change overlapping behavoir */
   position: relative;
-
+  z-index: inherit;
   max-width: 600px;
-  margin-bottom: 20px; 
-  padding: 30px 10px 30px 10px; 
+  margin-bottom: 10px; 
+  padding-bottom: 0px; 
+  padding-top: 0px; 
 
 }
 table {
@@ -35,33 +36,59 @@ table {
 
 }
 
-.more-button {
+.date {
   position: absolute;
   top: 5px;
   right: 10px;
-
 }
-.more {
+
+.icon {
   position: absolute;
   bottom: 5px;
   right: 10px;
 
 }
+
 .job-card-content {
   text-align: center;
-  max-width: 90%;
+  margin-bottom: 0;
 }
 
 .mat-card-actions {
   text-align: center;
+  margin-bottom: 0;
 }
 
 .button-row button,
 .button-row a {
   margin-right: 8px;
-  margin-top: 8px;
+  
 }
 
 .title {
   margin: 12px 0px 0px 0px;
+}
+
+button {
+  margin-right: 8px;
+}
+
+
+
+.mat-card .last-child {
+  margin-bottom: 0;
+  height: 0;
+}
+
+.mat-subheading-1 {
+  margin: 0;
+}
+
+
+.profile-card {
+  /* Remove position to change overlapping behavoir */
+  position: relative;
+  
+  max-width: 300px;
+  margin-bottom: 20px; 
 }

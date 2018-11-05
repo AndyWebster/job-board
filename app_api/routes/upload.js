@@ -37,7 +37,7 @@ router.post('/', upload.single('file'), (req, res) => {
     
     
 
-    console.log(req.file)
+
     res.json(req.file);
     
 });
@@ -45,7 +45,7 @@ router.post('/', upload.single('file'), (req, res) => {
 router.get('/:fileName', (req, res) => {
     let fileName = req.params.fileName;
     var file = './uploads/' + fileName;
-    console.log(file);
+
     res.download(file, 'cv.pdf'); // Set disposition and send it.
 })
 

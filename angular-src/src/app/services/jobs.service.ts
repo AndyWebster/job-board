@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
-import { HttpParams, HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { MessageService } from '../services/message.service';
 import { url } from '../url';
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,12 +26,6 @@ export class JobsService {
   apply(jobId, application) {
     return this.http.post(`${this.uri}/apply/${jobId}`, application)
   }
-
-/*   onUserUpload(fileInfo) {
-    let jobId = this.JobId();
-    let userId = this.authService.UserId();
-    return this.http.post(`${this.uri}/apply/:${jobId}`, userId, fileInfo)
-  } */
 
   JobId() {
     this.route.params.subscribe(params => {
@@ -99,8 +93,8 @@ export class JobsService {
       res => { 
         this.authService.getProfile()
         .subscribe(
-          profile => {
-            this.authService.addJob(res, profile.user._id)
+          data => {
+            this.authService.addJob(res, data['user']._id)
             .subscribe(
               res => {
                 return res;
@@ -141,8 +135,8 @@ export class JobsService {
       res => { 
         this.authService.getProfile()
         .subscribe(
-          profile => {
-            this.authService.removeJob(res, profile.user._id)
+          data => {
+            this.authService.removeJob(res, data['user']._id)
             .subscribe(
               res => {
                 return res;

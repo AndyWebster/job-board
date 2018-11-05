@@ -39,7 +39,7 @@ export class EditJobComponent implements OnInit {
           res => {
           this.messageService.showMessage('Your post was successfully updated');
           this.job = res;
-          this.router.navigate(['dashboard'])
+          this.router.navigate(['my-jobs'])
         });
       });
     }

@@ -20,7 +20,7 @@ const app = express();
 app.use(compression())
 
 // CORS Middleware 
-app.use(cors());
+// app.use(cors());
 // Additional CORS options
 var corsOptions = {
   origin: '*',

@@ -2,6 +2,7 @@
 import { fakeAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NavBarComponent } from './nav-bar.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('NavBarComponent', () => {
   let component: NavBarComponent;
@@ -10,7 +11,8 @@ describe('NavBarComponent', () => {
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [MatSidenavModule],
-      declarations: [NavBarComponent]
+      declarations: [NavBarComponent],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })
     .compileComponents();
 

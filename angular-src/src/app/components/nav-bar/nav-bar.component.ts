@@ -3,19 +3,21 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
-import {Router} from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { MessageService } from '../../services/message.service';
+
+import { routerTransition } from '../../animations';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.css']
+  styleUrls: ['./nav-bar.component.css'],
+  animations: [ routerTransition ],
 })
 export class NavBarComponent {
   navLinks = [
     {path:'job-search',label:'Search'},
     {path:'my-jobs',label:'My Jobs'},
-    {path:'create-job',label:'Create'},
     {path:'profile',label:'Profile'}
     
   ];
@@ -37,9 +39,13 @@ export class NavBarComponent {
   onLogoutClick(){
     this.authService.logout();
     this.messageService.showMessage('You are logged out');
-    this.router.navigate(['/job-search']);
+    this.router.navigate(['job-search']);
     return false;
   }
+  getState(outlet) {
+    return outlet.activatedRouteData.state;
+  }
+
 
 }
 
