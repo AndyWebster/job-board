@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { cardSlide, cardOpenClose } from '../../animations';
+import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
+import { cardSlide, cardOpenClose, cardFade, cardHideSHow } from '../../animations';
 
 import { Job } from '../../job';
 import { JobsService } from '../../services/jobs.service';
@@ -18,11 +18,9 @@ export interface ValueTable {
   selector: 'app-job-list',
   templateUrl: './job-list.component.html',
   styleUrls: ['./job-list.component.css'],
-  animations: [ cardSlide, cardOpenClose],
-  changeDetection: ChangeDetectionStrategy.Default
+  animations: [ cardSlide, cardOpenClose, cardFade, cardHideSHow]
 })
 export class JobListComponent implements OnInit {
-  
   jobs: Job[] = [];
   companies = [];
   keywords = "";
@@ -44,7 +42,9 @@ export class JobListComponent implements OnInit {
     public messageService: MessageService,
     private adapter: DateAdapter<any>,
 
-    ) { }
+    ) { 
+      
+    }
 
   ngOnInit() {
     this.getJobs();
@@ -66,6 +66,7 @@ export class JobListComponent implements OnInit {
         return dateA > dateB ? 1 : -1;  
       })
     }
+    
   }
 
   sortSalary(){
@@ -81,12 +82,20 @@ export class JobListComponent implements OnInit {
     
   }
 
+  sortControl(){
+    if (this.sortExpand){
+      this.getJobs();
+    }
+    this.sortExpand = !this.sortExpand;
+  }
+
   sortJobs(sortType?){
     if(sortType == 'date'){
       this.sortDate();
     } else if(sortType == 'salary'){
       this.sortSalary()
     }
+
   }
 
   clearFilters(){
@@ -94,9 +103,6 @@ export class JobListComponent implements OnInit {
     this.filterLocation = null;
     this.filterSalary = null;
     this.filterCompany = null;
-
-    this.keywords = "";
-    this.getJobs();
   }
 
   salaryFilter(salary){
@@ -124,11 +130,11 @@ export class JobListComponent implements OnInit {
   }
 
   getJobs() {
-    
+    this.jobs = [];
     this.jobservice
     .getJobs()
     .subscribe((data: Job[]) => {
-
+      
       this.setLocations(data);
       this.setCompanies(data);
       this.jobs = data
@@ -168,10 +174,8 @@ export class JobListComponent implements OnInit {
         this.setLocations(data);
       })
     } else {
-      
       this.getJobs();
     }
-    
   }
 
   salaries: ValueTable[] = [

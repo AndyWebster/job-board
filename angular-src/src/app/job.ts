@@ -7,4 +7,5 @@ export class Job {
     status: boolean;
     owner: string;
     date: string;
+    expand: boolean;
 }
